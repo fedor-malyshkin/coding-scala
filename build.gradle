@@ -1,0 +1,39 @@
+// project dependencies
+ext {
+	// scala
+	SCALA_VER = '2.12'
+	SCALA_LIBRARY_VER = '2.12.6'
+	SCALA_TEST_VER = '3.0.5'
+	// test
+	// test
+	TEST_JUNIT_VER='4.12'
+	TEST_MOCKITO_VER='2.7.9'
+	TEST_ASSERTJ_VER='3.6.2'
+}
+
+apply plugin: 'scala'
+apply plugin: 'java'
+// apply plugin: 'application'
+
+//mainClassName=""
+
+repositories {
+	mavenCentral()
+	mavenLocal()
+}
+
+ task scalaTest(dependsOn: ['testClasses'], type: JavaExec) {
+   main = 'org.scalatest.tools.Runner'
+   args = ['-R', 'build/classes/scala/test', '-o']
+   classpath = sourceSets.test.runtimeClasspath
+ }
+
+dependencies {
+	compile "org.scala-lang:scala-library:${SCALA_LIBRARY_VER}"
+	testCompile "org.scalatest:scalatest_${SCALA_VER}:${SCALA_TEST_VER}"
+	testCompile "junit:junit:${TEST_JUNIT_VER}"
+	testCompile "org.mockito:mockito-core:${TEST_MOCKITO_VER}"
+	testCompile  "org.assertj:assertj-core:${TEST_ASSERTJ_VER}"
+}
+
+test.dependsOn scalaTest
