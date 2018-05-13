@@ -22,6 +22,4 @@ class FP_01_UpdateListTest extends FlatSpec {
 		)
 
 	}
-
-
 }
