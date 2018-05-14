@@ -7,7 +7,7 @@ class FP_02_CalcETest extends FlatSpec {
 
 	behavior of "FP_02_CalcE"
 
-	ignore it should "calcE" in {
+	ignore should "calcE" in {
 		val in = List.apply(
 			20.0000,
 			5.0000,
