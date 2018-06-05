@@ -33,16 +33,18 @@ object FP_03_CalcAreaAndVolume {
     }
 
     /*
-         This is the part where the series is summed up
-         This function is invoked once with func = f to compute the area
-        under the curve
-         Then it is invoked again with func = area to compute the volume
-         of revolution of the curve
-    */
+             This is the part where the series is summed up
+             This function is invoked once with func = f to compute the area
+            under the curve
+             Then it is invoked again with func = area to compute the volume
+             of revolution of the curve
+        */
     def summation(func: (List[Int], List[Int], Double) => Double, upperLimit: Int, lowerLimit: Int, coefficients: List[Int], powers: List[Int]): Double = {
+        val iteration_step = 0.001
         def summation(func: (List[Int], List[Int], Double) => Double, upperLimit: Double, lowerLimit: Double, coefficients: List[Int], powers: List[Int]): Double = {
-            (lowerLimit to upperLimit by 0.01).map(func(coefficients, powers, _)).sum
+            (lowerLimit to upperLimit by iteration_step).map(iteration_step * func(coefficients, powers, _)).sum
         }
+
         summation(func, lowerLimit.toDouble, upperLimit.toDouble, coefficients, powers)
     }
 
