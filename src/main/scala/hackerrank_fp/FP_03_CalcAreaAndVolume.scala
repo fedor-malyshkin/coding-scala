@@ -15,7 +15,8 @@ object FP_03_CalcAreaAndVolume {
       * @return
       */
     def f(coefficients: List[Int], powers: List[Int], x: Double): Double = {
-        (0 until coefficients.size).map(ndx => coefficients(ndx) * Math.pow(x, powers(ndx))).sum
+        coefficients.zip(powers).foldLeft(0.0) { case (acc, (c, p)) => acc + c * math.pow(x, p) }
+        // (0 until coefficients.size).map(ndx => coefficients(ndx) * Math.pow(x, powers(ndx))).sum
     }
 
     /*
@@ -25,11 +26,7 @@ object FP_03_CalcAreaAndVolume {
          By rotating the point on the curve (x,f(x)) around the X-Axis
     */
     def area(coefficients: List[Int], powers: List[Int], x: Double): Double = {
-        //Fill Up this function body
-        // To compute the area of the circle on revolving the point
-        // (x,f(x)) around the X-Axis
-        // For the given coefficients, powers and value of x
-        0
+        math.Pi * math.pow(f(coefficients, powers, x), 2)
     }
 
     /*
@@ -39,13 +36,15 @@ object FP_03_CalcAreaAndVolume {
              Then it is invoked again with func = area to compute the volume
              of revolution of the curve
         */
-    def summation(func: (List[Int], List[Int], Double) => Double, upperLimit: Int, lowerLimit: Int, coefficients: List[Int], powers: List[Int]): Double = {
-        val iteration_step = 0.001
-        def summation(func: (List[Int], List[Int], Double) => Double, upperLimit: Double, lowerLimit: Double, coefficients: List[Int], powers: List[Int]): Double = {
-            (lowerLimit to upperLimit by iteration_step).map(iteration_step * func(coefficients, powers, _)).sum
-        }
+    def summation(func: (List[Int], List[Int], Double) => Double,
+                  upperLimit: Int,
+                  lowerLimit: Int,
+                  coefficients: List[Int],
+                  powers: List[Int]): Double = {
+        val step = 0.001
+        val subIntervals = lowerLimit.toDouble to upperLimit by step
+        subIntervals
+          .foldLeft(0.0) { case (acc, x) => acc + func(coefficients, powers, x) * step }
 
-        summation(func, lowerLimit.toDouble, upperLimit.toDouble, coefficients, powers)
     }
-
 }
