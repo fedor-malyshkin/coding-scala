@@ -19,11 +19,11 @@ class FP_03_CalcAreaAndVolumeTest extends FlatSpec {
         assertResult(8256.0)(FP_03_CalcAreaAndVolume.f(List(1, 2, 3, 4, 5), List(6, 7, 8, 9, 10), 2))
     }
 
-    it should "f from 1 to 4" in {
+    ignore should "f from 1 to 4" in {
         assertResult(2435300.3)(FP_03_CalcAreaAndVolume.summation(FP_03_CalcAreaAndVolume.f, 1, 4, List(1, 2, 3, 4, 5), List(6, 7, 8, 9, 10)))
     }
 
-    it should "f from test case" in {
+    ignore should "f from test case" in {
         assertResult(414.0)(FP_03_CalcAreaAndVolume.summation(FP_03_CalcAreaAndVolume.f, 2, 20, List(1, 2), List(0, 1)))
     }
 }

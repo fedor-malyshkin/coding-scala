@@ -1,6 +1,5 @@
-package bitworks.test_case
+package hackerrank_fp
 
-import hackerrank_fp.FP_01_UpdateList
 import org.scalatest.FlatSpec
 
 class FP_01_UpdateListTest extends FlatSpec {
