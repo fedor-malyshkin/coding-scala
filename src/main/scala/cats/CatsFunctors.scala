@@ -32,4 +32,36 @@ object CatsFunctors {
         fktor.apply(List(1, 2, 3, 45))
     }
 
+
+    def test05 = {
+        import cats.syntax.functor._
+
+        import scala.language.higherKinds
+        // for map
+
+        def doMath[F[_]](start: F[Int])(implicit functor: Functor[F]): F[Int] =
+            start.map(n => n + 1)
+
+        doMath(List(1, 2, 3, 4, 5))
+    }
+
+    final case class Box[A](value: A)
+
+    def test06 = {
+        import cats.syntax.functor._
+
+        import scala.language.higherKinds
+        // for map
+
+        val box = Box[Int](123)
+
+        implicit val boxFunctor =
+            new Functor[Box] {
+                override def map[A, B](fa: Box[A])(f: A => B): Box[B] = new Box[B](f(fa.value))
+            }
+
+        box.map(value => value + 1)
+    }
+
+
 }
