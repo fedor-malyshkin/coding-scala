@@ -6,11 +6,19 @@ import org.scalatest._
 class CatsFunctorsTest extends FlatSpec with Matchers {
 
     it should "test01" in {
-        CatsFunctors.test01 should be (List(5,4))
+        CatsFunctors.test01 should be(List(5, 4))
     }
 
     it should "test02" in {
-        CatsFunctors.test02 should be (Right(101))
+        CatsFunctors.test02 should be(Right(101))
+    }
+
+    it should "test03" in {
+        CatsFunctors.test03 should be(List((1, 2), (2, 4), (3, 6)))
+    }
+
+    it should "test04" in {
+        CatsFunctors.test04 should be(List(100, 200, 300, 4500))
     }
 
 }
