@@ -1,0 +1,5 @@
+package subtitleconverter
+
+class CleanSubtitleFromTiming {
+
+}
