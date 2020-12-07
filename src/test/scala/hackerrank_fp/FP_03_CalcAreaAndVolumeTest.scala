@@ -1,8 +1,8 @@
 package hackerrank_fp
 
-import org.scalatest.FlatSpec
+import org.scalatest.flatspec.AnyFlatSpec
 
-class FP_03_CalcAreaAndVolumeTest extends FlatSpec {
+class FP_03_CalcAreaAndVolumeTest extends AnyFlatSpec {
 
     behavior of "FP_03_CalcAreaAndVolume"
 

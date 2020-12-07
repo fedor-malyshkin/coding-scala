@@ -5,11 +5,11 @@ package hackerrank_fp
   */
 object FP_04_FuncOrNot {
 
-    def main(args: Array[String]) {
+    def main(args: Array[String]): Unit = {
         val n = io.StdIn.readInt()
-        (1 to n).foreach { i =>
+        (1 to n).foreach { _ =>
             val k = io.StdIn.readInt()
-            val list = (1 to k).map(x => io.StdIn.readLine.split("\\s+")(0)).toList
+            val list = (1 to k).map(x => io.StdIn.readLine().split("\\s+")(0)).toList
             if (list.distinct.size == list.size) println("YES")
             else println("NO")
         }

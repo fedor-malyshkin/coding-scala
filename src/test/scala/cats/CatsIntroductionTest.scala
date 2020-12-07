@@ -1,9 +1,11 @@
 package cats
 
 import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 
-class CatsIntroductionTest extends FlatSpec with Matchers {
+class CatsIntroductionTest extends AnyFlatSpec with Matchers {
 
     it should "test01" in {
         CatsIntroduction.test01 should be ("Garfield is a 38 year-old ginger and black cat.")

@@ -1,9 +1,8 @@
 package hackerrank_fp
 
-import org.scalatest.FlatSpec
+import org.scalatest.flatspec.AnyFlatSpec
 
-//noinspection UnitInMap,ComparingUnrelatedTypes
-class FP_02_CalcETest extends FlatSpec {
+class FP_02_CalcETest extends AnyFlatSpec {
 
 	behavior of "FP_02_CalcE"
 
