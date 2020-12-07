@@ -1,8 +1,8 @@
 package hackerrank_fp
 
-import org.scalatest.FlatSpec
+import org.scalatest.flatspec.AnyFlatSpec
 
-class FP_01_UpdateListTest extends FlatSpec {
+class FP_01_UpdateListTest extends AnyFlatSpec {
 
 	behavior of "FP_01_UpdateList"
 

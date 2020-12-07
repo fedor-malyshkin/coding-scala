@@ -2,9 +2,13 @@ package cats
 
 import cats.CatsFunctors.Box
 import org.scalatest._
+import org.scalatest.OptionValues
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 
-class CatsFunctorsTest extends FlatSpec with Matchers {
+
+class CatsFunctorsTest extends AnyFlatSpec with Matchers {
 
     it should "test01" in {
         CatsFunctors.test01 should be(List(5, 4))

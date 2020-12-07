@@ -1,9 +1,11 @@
 package cats
 
 import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.should.Matchers
 
 
-class CatsMonoidTest extends FlatSpec with Matchers {
+class CatsMonoidTest extends AnyFlatSpec with Matchers {
 
     it should "test01" in {
         CatsMonoid.test01 should be ("Hi there")
