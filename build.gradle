@@ -1,10 +1,9 @@
 ext {
 // scala
 	SCALA_VER = '2.13'
-	SCALA_LIBRARY_VER = '2.13.3'
+	SCALA_LIBRARY_VER = '2.13.4'
 	CATS_VER = '2.3.0'
 	CATS_EFFECT_VER = '2.3.0'
-
 
 // logging
 	SLF4J_VER = '1.7.30'
@@ -21,7 +20,6 @@ ext {
 	TEST_JSONASSERT_VER = '1.5.0'
 }
 
-
 // project dependencies
 buildscript {
 	repositories {
@@ -30,19 +28,14 @@ buildscript {
 		maven {
 			url "https://plugins.gradle.org/m2/"
 		}
-//		maven { url 'http://repo.spring.io/snapshot' }
-//		maven { url 'http://repo.spring.io/milestone' }
 	}
 
 	dependencies {
-		// lombok
-//		classpath "io.franzbecker:gradle-lombok:1.14"
 		// scalatest plugin
 		classpath "gradle.plugin.com.github.maiflai:gradle-scalatest:0.26"
 	}
 }
 
-//apply plugin: 'java'
 apply plugin: 'scala'
 apply plugin: "com.github.maiflai.scalatest"
 
