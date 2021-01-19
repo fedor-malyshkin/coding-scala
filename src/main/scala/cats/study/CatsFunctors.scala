@@ -1,5 +1,6 @@
-package cats
+package cats.study
 
+import cats.Functor
 import cats.instances.list._
 
 object CatsFunctors {

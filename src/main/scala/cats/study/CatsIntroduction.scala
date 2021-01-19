@@ -1,4 +1,6 @@
-package cats
+package cats.study
+
+import cats.Show
 
 object CatsIntroduction {
 

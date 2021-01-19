@@ -1,4 +1,6 @@
-package cats
+package cats.study
+
+import cats.Monoid
 
 object CatsMonoid {
 
@@ -14,7 +16,7 @@ object CatsMonoid {
     }
 
     def test03 = {
-        import cats.instances.string._ // for Monoid
+        import cats.instances.string._
         import cats.syntax.semigroup._ // for Monoid
         "Hi" |+| "from" |+| "monoids"
     }

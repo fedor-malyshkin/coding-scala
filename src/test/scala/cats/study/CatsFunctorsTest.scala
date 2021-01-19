@@ -1,8 +1,6 @@
-package cats
+package cats.study
 
-import cats.CatsFunctors.Box
-import org.scalatest._
-import org.scalatest.OptionValues
+import cats.study.CatsFunctors.Box
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
 

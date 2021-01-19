@@ -1,6 +1,6 @@
-package cats
+package cats.study
 
-import org.scalatest._
+import cats.{Foldable, Monad}
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
 

@@ -1,4 +1,4 @@
-package cats
+package cats.study
 
 object CatsVariance {
 
