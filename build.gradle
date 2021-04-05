@@ -1,7 +1,7 @@
 ext {
 // scala
 	SCALA_VER = '2.13'
-	SCALA_LIBRARY_VER = '2.13.4'
+	SCALA_LIBRARY_VER = '2.13.5'
 	CATS_VER = '2.3.1'
 	CATS_EFFECT_VER = CATS_VER
 	SCALAZ_VER = '7.4.0-M5'
@@ -12,8 +12,11 @@ ext {
 	SLF4J_VER = '1.7.30'
 	LOGBACK_VER = '1.2.3'
 
+// common
+	GUAVA_VER = '23.0'
+
 // test scala
-	SCALA_TEST_VER = '3.2.2'
+	SCALA_TEST_VER = '3.2.5'
 	SCALA_MOCK_VER = '5.0.0'
 
 // test
@@ -42,6 +45,15 @@ buildscript {
 apply plugin: 'scala'
 apply plugin: "com.github.maiflai.scalatest"
 
+java {
+//    toolchain {
+//        languageVersion = JavaLanguageVersion.of(13)
+//    }
+	sourceCompatibility = JavaVersion.VERSION_15
+	targetCompatibility = JavaVersion.VERSION_15
+}
+
+
 repositories {
 	mavenCentral()
 	mavenLocal()
@@ -62,6 +74,9 @@ dependencies {
 
 	// ZIO
 	implementation "dev.zio:zio_${SCALA_VER}:${ZIO_VER}"
+
+	// common
+	testImplementation "com.google.guava:guava:${GUAVA_VER}"
 
 	// Logging
 	implementation group: 'org.slf4j', name: 'slf4j-api', version: "${SLF4J_VER}"
