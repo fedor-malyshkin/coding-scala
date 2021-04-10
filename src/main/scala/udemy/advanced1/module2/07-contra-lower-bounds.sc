@@ -28,6 +28,8 @@ object AnySink extends Sink[Any] {
 def sinkAnApple(sink: Sink[Apple]): String = {
   sink.send(Apple("Fuji"))
 }
+
+
 sinkAnApple(AppleSink)
 
 //sinkAnApple(OrangeSink)  // this shouldn't work

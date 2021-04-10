@@ -30,8 +30,8 @@ case class Bowl2[F](contents: F) {
   override def toString: String = s"A yummy bowl of ${contents}s"
 }
 
-val appleBowl = Bowl(fuji)
-val muesliBowl = Bowl(alpen)
+val appleBowl = Bowl2(fuji)
+val muesliBowl = Bowl2(alpen)
 appleBowl.contents
 muesliBowl.contents
 
