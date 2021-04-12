@@ -11,6 +11,7 @@
 * hackerrank.com
 * Udemy
     * https://www.udemy.com/course/scala-advanced-part-1-the-scala-type-system
+    * https://www.udemy.com/course/scala-advanced-part-2
 
 ## References / Articles
 
