@@ -1,7 +1,8 @@
 import java.io.File
 
 val xmlFile = new File(
-  getClass.getClassLoader.getResource("LibraryItems.xml").toURI
+  getClass.getClassLoader.getResource("udemy/advanced2/module10/"
+    + "LibraryItems.xml").toURI
 )
 
 import scala.xml.XML
@@ -19,7 +20,8 @@ for (title <- books \\ "title") {
 }
 
 val xmlFileAttr = new File(
-  getClass.getClassLoader.getResource("LibraryItemsAttr.xml").toURI
+  getClass.getClassLoader.getResource("udemy/advanced2/module10/"
+    + "LibraryItemsAttr.xml").toURI
 )
 
 val booksAttrs = XML.loadFile(xmlFileAttr)
@@ -35,7 +37,6 @@ case class Book(title: String, author: String, year: Int, pages: Int)
 
 
 def bookToXML(book: Book) = {
-  import book._
   <book>
     <title>{title}</title>
     <author>{author}</author>
@@ -51,7 +52,6 @@ val x = 10
 
 
 def bookToXMLAttr(book: Book) = {
-  import book._
   <item type="book" title={title} author={author}
         year={year.toString} pages={pages.toString}></item>
 }
