@@ -1,12 +1,13 @@
 import scala.concurrent._
-import duration._
-import ExecutionContext.Implicits.global
+import scala.concurrent.duration._
+
+implicit val ec: ExecutionContext = ExecutionContext  .fromExecutor(java.util.concurrent.Executors.newFixedThreadPool(5))
 
 // batch processing (grouping) futures
 
 def calc(i: Int): Future[Int] = Future {
-  println(s"Calculating for $i")
-  Thread.sleep(500)
+  println(s"${System.currentTimeMillis()}Calculating for $i")
+  Thread.sleep(5000)
   i * i
 }
 
@@ -26,14 +27,20 @@ def processSeqBatch(xs: Vector[Int], batchSize: Int): Future[Vector[Int]] = {
     for {
       acc <- accF
       batchRes <- processSeq(batch)
-    } yield acc ++ batchRes
+
+    } yield {
+      println (System.currentTimeMillis() +    " calculated "  + batchRes)
+      acc ++ batchRes
+    }
   }
 }
 
 val nums = (1 to 20).toVector
 
+/*
 val f = processSeq(nums)
 Await.result(f, 20.seconds)
+*/
 
 val f2 = processSeqBatch(nums, 2)
 Await.result(f2, 20.seconds)

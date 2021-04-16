@@ -25,9 +25,15 @@ object WebURL {
   }
 }
 
+val r = webUrl match {
+  case w@WebURL(prot, _, _) if prot.equalsIgnoreCase("http") => "R::" + w
+}
+
+val WebURL(prot, host, _) = webUrl
+
 WebURL.unapply(webUrl)
 
-WebURL.apply("http", "www.escalatesoft.com", "training/index.html")
+WebURL("http", "www.escalatesoft.com", "training/index.html")
 
 def splitUrl(s: String) = s match {
   case WebURL(proto, svr, loc) =>

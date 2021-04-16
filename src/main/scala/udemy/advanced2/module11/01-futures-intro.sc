@@ -1,6 +1,6 @@
 import scala.concurrent._
-import duration._
-import ExecutionContext.Implicits.global
+import scala.concurrent.duration._
+import scala.concurrent.ExecutionContext.Implicits.global
 
 val f1 = Future { Thread.sleep(1000); 10}
 val f2 = f1.map(_ * 10)

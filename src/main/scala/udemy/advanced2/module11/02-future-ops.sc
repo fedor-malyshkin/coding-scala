@@ -1,6 +1,6 @@
 import scala.concurrent._
-import duration._
-import ExecutionContext.Implicits.global
+import scala.concurrent.duration._
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.{Failure, Success, Try}
 
 // failure
