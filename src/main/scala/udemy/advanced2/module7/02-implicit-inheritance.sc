@@ -27,13 +27,13 @@ class DBQuery(implicit dBConfig: DBConfig) {
 
 class WSCall(implicit wSConfig: WSConfig) {
   def doAnother(): Unit = {
-    println(s"Doing stuff with service ${wSConfig}")
+    println(s"Doing stuff with service ${wSConfig.wsName}")
   }
 }
 
 trait AllResources extends DBConfig with WSConfig
 
-object StdAllResources extends AllResources with StdWSConfig with StdDBConfig
+
 
 class ImportantSystem(implicit allResources: AllResources) {
   val dbQuery = new DBQuery() // injected implicitly
@@ -45,6 +45,15 @@ class ImportantSystem(implicit allResources: AllResources) {
   }
 }
 
+object StdAllResources extends AllResources with StdWSConfig with StdDBConfig
+
 val system = new ImportantSystem()(StdAllResources)
 
 system.doItAll()
+
+
+def methodWithImplicitArgs(implicit allResources: AllResources) = {
+  allResources.wsName + allResources.dbName
+}
+
+methodWithImplicitArgs(StdAllResources)
