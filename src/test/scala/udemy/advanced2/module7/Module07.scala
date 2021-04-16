@@ -13,7 +13,11 @@ import scala.annotation.tailrec
 
 class Module07 extends AnyFunSuite with Matchers with SeveredStackTraces {
 
-  object InetAddrNameResolver {
+  trait IInetAddrResolver {
+    def addressForName(name: String): Option[String]
+  }
+
+  object InetAddrNameResolver extends IInetAddrResolver {
     // used to be actual internet lookup, but was too mutable, so fake slow now.
     def addressForName(name: String): Option[String] = {
       Thread.sleep(2000)
@@ -22,7 +26,7 @@ class Module07 extends AnyFunSuite with Matchers with SeveredStackTraces {
   }
 
   // a mock version - notice the similarity of the API :-)
-  object MockAddrNameResolver {
+  object MockAddrNameResolver extends IInetAddrResolver {
     def addressForName(name: String): Option[String] = name match {
       case "localhost" => Some("127.0.0.1")
       case "www.cnn.com" => Some("157.166.248.10")
@@ -41,11 +45,9 @@ class Module07 extends AnyFunSuite with Matchers with SeveredStackTraces {
     }
   }
 
-  class SiteNewAgeChecker {
+  class SiteNewAgeChecker(implicit nameResolver: IInetAddrResolver) {
 
     import NumerCalc._
-
-    val nameResolver = InetAddrNameResolver
 
     def numerologyValue(name: String): Int = {
       nameResolver.addressForName(name) match {
@@ -78,10 +80,10 @@ class Module07 extends AnyFunSuite with Matchers with SeveredStackTraces {
     // This is a very typical use of modular decoupling.
 
     val hostList = List("localhost", "www.cnn.com", "www.slashdot.org", "SomeTotallyMadeUpHostNameXXYYZZ.com")
-
+    implicit val resolver = MockAddrNameResolver
     val checker = new SiteNewAgeChecker
 
-    hostList.map(checker.numerologyValue(_)) should be(List(2, 5, 2, 0))
+    hostList.map(checker.numerologyValue) should be(List(2, 5, 2, 0))
   }
 
   trait DBAccess {
@@ -106,22 +108,29 @@ class Module07 extends AnyFunSuite with Matchers with SeveredStackTraces {
   test("Inject using Parfait") {
 
     // Create a DBConfig trait with a single abstract db val of type DBAccess
+    trait DBConfig {
+      val db: DBAccess
+    }
 
     // Create a NameResolverConfig trait with a single abstract nameResolver val
     // of type NameResolver (or whatever common super-trait you used for the name
     // resolver above)
+    trait NameResolverConfig {
+      val nameResolver: IInetAddrResolver
+    }
 
     // Create a SystemConfig trait that mixes DBConfig and NameResolverConfig
     // together into one handy package
+    trait SystemConfig extends DBConfig with NameResolverConfig
 
 
     // alter this SiteNumerologer to take the implicit config NameResolverConfig
     // and use that to get the name resolver instead of just using the slow one
-    class SiteNumerologer {
+    class SiteNumerologer(implicit resolverConfig: NameResolverConfig) {
 
       import NumerCalc._
 
-      val resolver = InetAddrNameResolver
+      val resolver = resolverConfig.nameResolver
 
       def numerForSite(site: String): Int = {
         val addr = resolver.addressForName(site)
@@ -132,8 +141,8 @@ class Module07 extends AnyFunSuite with Matchers with SeveredStackTraces {
 
     // Alter the SiteLookerUpper to take implicit DBConfig and use that to look
     // up the db instead of using the slow one
-    class SiteLookerUpper {
-      val db = SlowDB
+    class SiteLookerUpper(implicit dbConfig: DBConfig) {
+      val db = dbConfig.db
 
       def numerForIndex(i: Int): String = db.lookupSite(i)
     }
@@ -143,19 +152,27 @@ class Module07 extends AnyFunSuite with Matchers with SeveredStackTraces {
     // the new SiteLookerUpper and new SiteNumerologer need to have those
     // configs available, and SystemConfig covers them both. Add the implicit param
     // and you should be good to go
-    class DBNumerologer {
+    class DBNumerologer(implicit val config: SystemConfig) {
       def numerForIndex(i: Int): Int = {
         val lookerUpper = new SiteLookerUpper
         val numerologer = new SiteNumerologer
+
         numerologer.numerForSite(lookerUpper.numerForIndex(i))
       }
     }
+
 
 
     // Finally you actually need an implicit concrete instance of the SystemConfig
     // with the FakeDB and MockAddrNameResolver in it - the compiler will tell
     // you all of this if you forget. Try switching in the slow impls to this
     // config to see how easy it is to switch back and forth
+
+    implicit object StdSystemConfig extends SystemConfig {
+      override val nameResolver: IInetAddrResolver = MockAddrNameResolver
+      override val db: DBAccess = FakeDB
+    }
+
     val dbNumer = new DBNumerologer // implicits all the way down, like turtles
 
     dbNumer.numerForIndex(1) should be(2)
