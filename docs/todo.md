@@ -1,7 +1,12 @@
 # My TODO list for Scala
 
-* ZIO
+* https://www.manning.com/books/functional-programming-in-scala
 * Cats (https://rockthejvm.com/p/cats)
+* Cats (https://eed3si9n.com/herding-cats/)
+* Cats framework,
+* cats-effects,
+* cats-free
+* ZIO
 * Shapeless
 * Monix
 * Scalaz

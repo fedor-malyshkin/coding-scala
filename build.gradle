@@ -72,11 +72,12 @@ dependencies {
 
 	// Cats
 	implementation "org.typelevel:cats-core_${SCALA_VER}:${CATS_VER}"
+	implementation "org.typelevel:cats-free_${SCALA_VER}:${CATS_VER}"
 	implementation "org.typelevel:cats-effect_${SCALA_VER}:${CATS_EFFECT_VER}"
 
 	// Scalaz
-	implementation "org.scalaz:scalaz-core_${SCALA_VER}:${SCALAZ_VER}"
-	implementation "org.scalaz:scalaz-effect_${SCALA_VER}:${SCALAZ_EFFECT_VER}"
+	// implementation "org.scalaz:scalaz-core_${SCALA_VER}:${SCALAZ_VER}"
+	// implementation "org.scalaz:scalaz-effect_${SCALA_VER}:${SCALAZ_EFFECT_VER}"
 
 	// ZIO
 	implementation "dev.zio:zio_${SCALA_VER}:${ZIO_VER}"
