@@ -4,6 +4,9 @@ ext {
 	SCALA_LIBRARY_VER = '2.13.5'
 	SCALA_XML_VER = '1.3.0'
 
+	// play json
+	PLAY_JSON_VER = '2.9.2'
+
 	CATS_VER = '2.3.1'
 	CATS_EFFECT_VER = CATS_VER
 	ZIO_VER = '1.0.3'
@@ -73,7 +76,7 @@ test.dependsOn('scalatest')
 dependencies {
 	implementation "org.scala-lang:scala-library:${SCALA_LIBRARY_VER}"
 	implementation "org.scala-lang.modules:scala-xml_${SCALA_VER}:${SCALA_XML_VER}"
-//	implementation "com.typesafe.play:play-json_${SCALA_VER}:${PLAY_JSON_VER}"
+	implementation "com.typesafe.play:play-json_${SCALA_VER}:${PLAY_JSON_VER}"
 
 
 	// Akka
