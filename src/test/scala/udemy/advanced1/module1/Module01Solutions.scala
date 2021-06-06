@@ -137,7 +137,6 @@ class Module01Solutions extends KoanSuite with Matchers {
       "ground beef" -> List("chili", "meat sauce", "swedish meatballs"))
 
     def findRecipes(food: String): List[String] = {
-      Thread.sleep(1000);
       foods.getOrElse(food, Nil)
     }
   }
