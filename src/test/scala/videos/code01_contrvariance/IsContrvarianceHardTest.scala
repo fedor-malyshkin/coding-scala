@@ -14,7 +14,7 @@ class IsContrvarianceHardTest extends AnyFlatSpec {
     IsContrvarianceHard.caseInvariant()
   }
 
-  it should "process contr-variance" in {
-    IsContrvarianceHard.caseContrvariant()
+  it should "process contr-variance. case 1" in {
+    IsContrvarianceHard.caseContrvariantCase1()
   }
 }
