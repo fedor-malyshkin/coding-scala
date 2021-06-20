@@ -1,9 +1,10 @@
 package udemy.akka.persistence.part2_event_sourcing
 
-import java.util.Date
-
 import akka.actor.{Actor, ActorLogging, ActorRef, ActorSystem, Props}
 import akka.persistence.PersistentActor
+import com.typesafe.config.ConfigFactory
+
+import java.util.Date
 
 object MultiplePersists extends App {
 
@@ -65,7 +66,8 @@ object MultiplePersists extends App {
     }
   }
 
-  val system = ActorSystem("MulitplePersistsDemo")
+  val config = ConfigFactory.load("udemy/akka/persistence/application.conf")
+  val system = ActorSystem("MulitplePersistsDemo", config.getConfig("localStores").withFallback(config))
   val taxAuthority = system.actorOf(Props[TaxAuthority], "HMRC")
   val accountant = system.actorOf(DiligentAccountant.props("UK52352_58325", taxAuthority))
 
