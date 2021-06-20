@@ -1,9 +1,10 @@
 package udemy.akka.persistence.part2_event_sourcing
 
-import java.util.Date
-
-import akka.actor.{ActorLogging, ActorSystem, PoisonPill, Props}
+import akka.actor.{ActorLogging, ActorSystem, Props}
 import akka.persistence.PersistentActor
+import com.typesafe.config.ConfigFactory
+
+import java.util.Date
 
 
 object PersistentActors extends App {
@@ -117,7 +118,8 @@ object PersistentActors extends App {
     }
   }
 
-  val system = ActorSystem("PersistentActors")
+  val config = ConfigFactory.load("udemy/akka/persistence/application.conf")
+  val system = ActorSystem("PersistentActors", config.getConfig("localStores").withFallback(config))
   val accountant = system.actorOf(Props[Accountant], "simpleAccountant")
 
   for (i <- 1 to 10) {

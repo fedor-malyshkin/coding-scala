@@ -13,10 +13,10 @@ ext {
 
 	//
 	AKKA_VER = "2.6.14"
-	LEVELDB_VER = "0.7"
+	LEVELDB_VER = "0.12"
 	LEVELDBJNI_VER = "1.8"
 	POSTGRES_VER = "42.2.2"
-	CASSANDRA_VER = "0.91"
+	CASSANDRA_VER = "1.0.5"
 	JSON4S_VER = "3.2.11"
 	PROTOBUF_VER = "3.6.1"
 
@@ -81,6 +81,15 @@ dependencies {
 
 	// Akka
 	implementation "com.typesafe.akka:akka-persistence_${SCALA_VER}:${AKKA_VER}"
+
+	// Level DB
+	// local levelDB stores
+	implementation "org.iq80.leveldb:leveldb:${LEVELDB_VER}"
+	implementation "org.fusesource.leveldbjni:leveldbjni-all:${LEVELDBJNI_VER}"
+
+	// cassandra
+	implementation "com.typesafe.akka:akka-persistence-cassandra_${SCALA_VER}:${CASSANDRA_VER}"
+	testImplementation "com.typesafe.akka:akka-persistence-cassandra-launcher_${SCALA_VER}:${CASSANDRA_VER}"
 
 	// Cats
 	implementation "org.typelevel:cats-core_${SCALA_VER}:${CATS_VER}"
