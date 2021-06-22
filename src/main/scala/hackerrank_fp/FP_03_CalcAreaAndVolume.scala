@@ -43,7 +43,7 @@ object FP_03_CalcAreaAndVolume {
                   coefficients: List[Int],
                   powers: List[Int]): Double = {
         val step = 0.001
-        val subIntervals = lowerLimit.toDouble to upperLimit by step
+        val subIntervals = lowerLimit.toDouble to upperLimit.toDouble by step.toDouble
         subIntervals
           .foldLeft(0.0) { case (acc, x) => acc + func(coefficients, powers, x.toDouble) * step }
 
