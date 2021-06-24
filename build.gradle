@@ -22,6 +22,10 @@ ext {
 
     // Spark
     SPARK_VER = "3.1.2"
+    SPARK_CASSANDRA_CONNECTION_VER = '3.0.1'
+
+    // Kafka
+    KAFKA_VER = '2.8.0'
 
 // logging
     SLF4J_VER = '1.7.30'
@@ -94,10 +98,21 @@ dependencies {
     implementation "com.typesafe.akka:akka-persistence-cassandra_${SCALA_VER}:${CASSANDRA_VER}"
     testImplementation "com.typesafe.akka:akka-persistence-cassandra-launcher_${SCALA_VER}:${CASSANDRA_VER}"
 
-    // Spark + DB connections
+    // Spark
     implementation "org.apache.spark:spark-core_${SCALA_VER}:${SPARK_VER}"
     implementation "org.apache.spark:spark-sql_${SCALA_VER}:${SPARK_VER}"
+    implementation "org.apache.spark:spark-streaming_${SCALA_VER}:${SPARK_VER}"
+    // Spark misc
     implementation "org.postgresql:postgresql:${POSTGRES_VER}"
+    implementation "org.apache.spark:spark-sql-kafka-0-10_${SCALA_VER}:${SPARK_VER}"
+    // low-level integrations
+    implementation "org.apache.spark:spark-streaming-kafka-0-10_${SCALA_VER}:${SPARK_VER}"
+    implementation "org.apache.spark:spark-streaming-kinesis-asl_${SCALA_VER}:${SPARK_VER}"
+
+    implementation "com.datastax.spark:spark-cassandra-connector_${SCALA_VER}:${SPARK_CASSANDRA_CONNECTION_VER}"
+
+    // Kafka
+    implementation "org.apache.kafka:kafka_${SCALA_VER}:${KAFKA_VER}"
 
     // Cats
     implementation "org.typelevel:cats-core_${SCALA_VER}:${CATS_VER}"
