@@ -2,6 +2,7 @@ package udemy.spark.essentials.part2dataframes
 
 import org.apache.spark.sql.{Row, SparkSession}
 import org.apache.spark.sql.types._
+import udemy.spark.essentials.DataSourcesConstants.{CARS_JSON_DATA, MOVIES_JSON_DATA}
 
 object DataFramesBasics extends App {
 
@@ -11,15 +12,11 @@ object DataFramesBasics extends App {
     .config("spark.master", "local")
     .getOrCreate()
 
-
-  val CARS_DATA = "src/main/resources/udemy/spark/essentials/data/cars.json"
-  val MOVIES_DATA = "src/main/resources/udemy/spark/essentials/data/movies.json"
-
   // reading a DF
   val firstDF = spark.read
     .format("json")
     .option("inferSchema", "true")
-    .load(CARS_DATA)
+    .load(CARS_JSON_DATA)
 
   // showing a DF
   firstDF.show()
@@ -51,7 +48,7 @@ object DataFramesBasics extends App {
   val carsDFWithSchema = spark.read
     .format("json")
     .schema(carsDFSchema)
-    .load(CARS_DATA)
+    .load(CARS_JSON_DATA)
 
   // create rows by hand
   val myRow = Row("chevrolet chevelle malibu",18,8,307,130,3504,12.0,"1970-01-01","USA")
@@ -105,7 +102,7 @@ object DataFramesBasics extends App {
   val moviesDF = spark.read
     .format("json")
     .option("inferSchema", "true")
-    .load(MOVIES_DATA)
+    .load(MOVIES_JSON_DATA)
   moviesDF.printSchema()
   println(s"The Movies DF has ${moviesDF.count()} rows")
 }
