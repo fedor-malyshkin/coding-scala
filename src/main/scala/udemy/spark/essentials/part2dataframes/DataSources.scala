@@ -2,6 +2,7 @@ package udemy.spark.essentials.part2dataframes
 
 import org.apache.spark.sql.{SaveMode, SparkSession}
 import org.apache.spark.sql.types._
+import udemy.spark.essentials.DataSourcesConstants
 
 object DataSources extends App {
 
@@ -33,7 +34,7 @@ object DataSources extends App {
     .format("json")
     .schema(carsSchema) // enforce a schema
     .option("mode", "failFast") // dropMalformed, permissive (default)
-    .option("path", "src/main/resources/data/cars.json")
+    .option("path", DataSourcesConstants.CARS_JSON_DATA)
     .load()
 
   // alternative reading with options map
@@ -41,7 +42,7 @@ object DataSources extends App {
     .format("json")
     .options(Map(
       "mode" -> "failFast",
-      "path" -> "src/main/resources/data/cars.json",
+      "path" -> DataSourcesConstants.CARS_JSON_DATA,
       "inferSchema" -> "true"
     ))
     .load()
@@ -56,7 +57,7 @@ object DataSources extends App {
   carsDF.write
     .format("json")
     .mode(SaveMode.Overwrite)
-    .save("src/main/resources/data/cars_dupe.json")
+    .save(DataSourcesConstants.CARS_DUPE_JSON_OUTPUT_DATA)
 
   // JSON flags
   spark.read
@@ -64,7 +65,7 @@ object DataSources extends App {
     .option("dateFormat", "YYYY-MM-dd") // couple with schema; if Spark fails parsing, it will put null
     .option("allowSingleQuotes", "true")
     .option("compression", "uncompressed") // bzip2, gzip, lz4, snappy, deflate
-    .json("src/main/resources/data/cars.json")
+    .json(DataSourcesConstants.CARS_JSON_DATA)
 
   // CSV flags
   val stocksSchema = StructType(Array(
@@ -79,15 +80,15 @@ object DataSources extends App {
     .option("header", "true")
     .option("sep", ",")
     .option("nullValue", "")
-    .csv("src/main/resources/data/stocks.csv")
+    .csv(DataSourcesConstants.STOCKS_CSV_DATA)
 
   // Parquet
   carsDF.write
     .mode(SaveMode.Overwrite)
-    .save("src/main/resources/data/cars.parquet")
+    .save(DataSourcesConstants.CARS_PARQUET_OUTPUT_DATA)
 
   // Text files
-  spark.read.text("src/main/resources/data/sampleTextFile.txt").show()
+  spark.read.text(DataSourcesConstants.SAMPLE_TEXT_DATA).show()
 
   // Reading from a remote DB
   val driver = "org.postgresql.Driver"
@@ -111,21 +112,22 @@ object DataSources extends App {
     * - table "public.movies" in the Postgres DB
     */
 
-  val moviesDF = spark.read.json("src/main/resources/data/movies.json")
+  val moviesDF = spark.read.json(DataSourcesConstants.MOVIES_JSON_DATA)
 
   // TSV
   moviesDF.write
     .format("csv")
     .option("header", "true")
     .option("sep", "\t")
-    .save("src/main/resources/data/movies.csv")
+    .save(DataSourcesConstants.MOVIES_CSV_OUTPUT_DATA)
 
   // Parquet
-  moviesDF.write.save("src/main/resources/data/movies.parquet")
+  moviesDF.write.save(DataSourcesConstants.MOVIES_PARQUET_OUTPUT_DATA)
 
   // save to DF
   moviesDF.write
     .format("jdbc")
+    .mode(SaveMode.Overwrite)
     .option("driver", driver)
     .option("url", url)
     .option("user", user)
