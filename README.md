@@ -20,6 +20,7 @@ Some exercise in Scala
     * [Akka HTTP with Scala | Rock the JVM](https://www.udemy.com/course/akka-http)
     * [Akka Remoting and Clustering with Scala | Rock the JVM](https://www.udemy.com/course/akka-remoting-clustering/)
     * [Spark 3.0 & Big Data Essentials with Scala | Rock the JVM](https://www.udemy.com/course/spark-essentials/)
+    * [Spark Streaming 3.0 with Scala | Rock the JVM](https://www.udemy.com/course/spark-streaming/)
   
 
 ## References / Articles
