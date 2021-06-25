@@ -1,11 +1,10 @@
 # My TODO list for Scala
 
-* lenses
+* Monix
+* ZIO
 * cats-effects,
 * cats-free
-* ZIO
 * Shapeless
-* Monix
 * https://leanpub.com/fpmortals
 * https://rockthejvm.com/p/spark-optimization
 * https://rockthejvm.com/p/spark-performance-tuning
