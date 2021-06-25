@@ -55,7 +55,7 @@ class Module11Solution extends AnyFunSpec with Matchers with SeveredStackTraces 
 
     it("should harness multiple cores to calculate PI") {
       val calcPi = new CalcPi
-      val pi = Await.result(calcPi.calc(500, 10000000), 1.minute) * 4
+      val pi = Await.result(calcPi.calc(500, 1000000), 1.minute) * 4
 
       println(pi)
       pi should be(3.141 +- 0.001)
