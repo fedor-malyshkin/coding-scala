@@ -1,9 +1,11 @@
 package udemy.spark.streaming.part2structuredstreaming
 
-import org.apache.spark.sql.{DataFrame, SparkSession}
 import org.apache.spark.sql.functions._
-import udemy.spark.streaming.common._
+import org.apache.spark.sql.streaming.OutputMode.Append
 import org.apache.spark.sql.streaming.Trigger
+import org.apache.spark.sql.{DataFrame, SparkSession}
+import udemy.spark.streaming.common._
+
 import scala.concurrent.duration._
 
 object StreamingDataFrames {
@@ -30,7 +32,7 @@ object StreamingDataFrames {
     // consuming a DF
     val query = shortLines.writeStream
       .format("console")
-      .outputMode("append")
+      .outputMode(Append)
       .start()
 
     // wait for the stream to finish
@@ -73,6 +75,7 @@ object StreamingDataFrames {
   }
 
   def main(args: Array[String]): Unit = {
-    demoTriggers()
+    //     demoTriggers()
+    readFromSocket()
   }
 }
