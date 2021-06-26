@@ -8,7 +8,7 @@ ext {
     PLAY_JSON_VER = '2.9.2'
 
     CATS_VER = '2.3.1'
-    CATS_EFFECT_VER = CATS_VER
+    CATS_EFFECT_VER = '3.1.1'
     ZIO_VER = '1.0.3'
 
     // akka
