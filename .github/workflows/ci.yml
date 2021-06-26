@@ -27,7 +27,7 @@ jobs:
       - name: grant-execute-permission-for-gradlew
         run: chmod +x gradlew
       - name: build-with-gradle
-        run: ./gradlew build -DskipTests
+        run: ./gradlew build -x test
       - name: upload-build-dir
         uses: actions/upload-artifact@v2
         with:

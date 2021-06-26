@@ -1,4 +1,4 @@
-package hackerrank_fp
+package coding.hackerrank
 
 import org.scalatest.flatspec.AnyFlatSpec
 
