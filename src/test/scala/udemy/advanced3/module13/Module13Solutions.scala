@@ -210,8 +210,6 @@ class Module13Solutions extends AnyFunSpec with Matchers with SeveredStackTraces
         case count@Count(_) =>
           fakeDB.values.collect(count.predicate).count(identity)
         case ShowState =>
-          println("State now ----------------")
-          println(fakeDB)
           ()
       }
   }

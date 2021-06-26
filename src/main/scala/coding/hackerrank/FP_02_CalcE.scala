@@ -1,4 +1,4 @@
-package hackerrank_fp
+package coding.hackerrank
 
 object FP_02_CalcE {
 	def f(in: Double): Double = (2 to 9).

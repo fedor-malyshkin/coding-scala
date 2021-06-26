@@ -1,4 +1,4 @@
-package hackerrank_fp
+package coding.hackerrank
 
 import scala.math.BigDecimal.double2bigDecimal
 
