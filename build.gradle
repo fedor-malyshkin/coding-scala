@@ -7,7 +7,7 @@ ext {
     // play json
     PLAY_JSON_VER = '2.9.2'
 
-    CATS_VER = '2.3.1'
+    CATS_VER = '2.6.1'
     CATS_EFFECT_VER = '3.1.1'
     ZIO_VER = '1.0.3'
 
@@ -137,4 +137,13 @@ dependencies {
     testImplementation "junit:junit:${TEST_JUNIT_VER}"
     testImplementation "org.mockito:mockito-core:${TEST_MOCKITO_VER}"
     testImplementation "org.assertj:assertj-core:${TEST_ASSERTJ_VER}"
+}
+
+
+tasks.withType(ScalaCompile) {
+    scalaCompileOptions.additionalParameters = ["-feature",
+                                                "-deprecation",
+                                                "-unchecked",
+                                                "-language:postfixOps",
+                                                "-Ypartial-unification"]
 }
