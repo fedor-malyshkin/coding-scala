@@ -1,7 +1,7 @@
 package playground.cats.effects
 
-import cats.effect.std.Console
 import cats.effect._
+import cats.effect.std.Console
 import cats.instances.list._
 import cats.syntax.all._
 
