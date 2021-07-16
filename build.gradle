@@ -8,6 +8,7 @@ ext {
     PLAY_JSON_VER = '2.9.2'
 
     CATS_VER = '2.6.1'
+    CATS_SCALA_TEST_VER = '2.1.5'
     CATS_EFFECT_VER = '3.1.1'
     ZIO_VER = '1.0.3'
 
@@ -35,7 +36,7 @@ ext {
     GUAVA_VER = '23.0'
 
 // test scala
-    SCALA_TEST_VER = '3.2.5'
+    SCALA_TEST_VER = '3.2.9'
     SCALA_MOCK_VER = '5.0.0'
 
 // test
@@ -130,6 +131,7 @@ dependencies {
     // implementation group: 'ch.qos.logback', name: 'logback-classic', version: "${LOGBACK_VER}"
 
     // testing (scala)
+    testImplementation "org.typelevel:cats-testkit-scalatest_${SCALA_VER}:${CATS_SCALA_TEST_VER}"
     testImplementation "org.scalatest:scalatest_${SCALA_VER}:${SCALA_TEST_VER}"
     testImplementation "org.scalamock:scalamock_${SCALA_VER}:${SCALA_MOCK_VER}"
     testImplementation 'com.vladsch.flexmark:flexmark-all:0.36.8'
