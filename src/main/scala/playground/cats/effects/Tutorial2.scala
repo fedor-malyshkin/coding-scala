@@ -9,12 +9,15 @@ import scala.language.higherKinds
 
 
 object Tutorial2 extends IOApp {
-  def producer[F[_] : Sync : Console](queueR: Ref[F, Queue[Int]], counter: Int): F[Unit] =
+  def producer[F[_] : Sync : Console](queueR: Ref[F, Queue[Int]], counter: Int): F[Unit] = {
+    val pSync = implicitly[Sync[F]]
+    val cSync = implicitly[Console[F]]
     for {
       _ <- if (counter % 10000 == 0) Console[F].println(s"Produced $counter items") else Sync[F].unit
       _ <- queueR.getAndUpdate(_.enqueue(counter + 1))
       _ <- producer(queueR, counter + 1)
     } yield ()
+  }
 
   def consumer[F[_] : Sync : Console](queueR: Ref[F, Queue[Int]]): F[Unit] =
     for {
