@@ -18,7 +18,6 @@ class XorRandom(seed: Long) extends java.util.Random {
 }
 
 object XorRandom {
-  def random(seed: Long = Random.nextLong()): Random = {
+  def random(seed: Long = Random.nextLong()): Random =
     new Random(new XorRandom(seed))
-  }
 }

@@ -1,4 +1,3 @@
-
 /* Copyright (C) 2010-2014 Escalate Software, LLC. All rights reserved. */
 
 package udemy.advanced1.module1
@@ -11,7 +10,6 @@ import udemy.advanced1.module1.support.KoanSuite
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent._
 import scala.concurrent.duration._
-
 
 class Module01Solutions extends KoanSuite with Matchers {
 
@@ -29,7 +27,10 @@ class Module01Solutions extends KoanSuite with Matchers {
     def currentDaily: Int = _currentDaily
 
     def currentDaily_=(x: Int) {
-      require(x > -500 && x < (_dailyMax + 500), "May not deviate from daily range by 500 or more calories")
+      require(
+        x > -500 && x < (_dailyMax + 500),
+        "May not deviate from daily range by 500 or more calories"
+      )
       _currentDaily = x
     }
 
@@ -127,31 +128,31 @@ class Module01Solutions extends KoanSuite with Matchers {
     tracker2.currentDaily should be(500)
   }
 
-
   case class RecipesForFood(food: String)
 
   object SlowDB {
-    val foods = Map("eggs" -> List("ommelette", "french toast", "poached eggs"),
+    val foods = Map(
+      "eggs" -> List("ommelette", "french toast", "poached eggs"),
       "bread" -> List("beans on toast", "french toast", "marmite sandwich"),
       "peanuts" -> List("peanut butter", "trail mix", "pad thai"),
-      "ground beef" -> List("chili", "meat sauce", "swedish meatballs"))
+      "ground beef" -> List("chili", "meat sauce", "swedish meatballs")
+    )
 
-    def findRecipes(food: String): List[String] = {
+    def findRecipes(food: String): List[String] =
       foods.getOrElse(food, Nil)
-    }
   }
 
   object DBCache {
-    val recipeCache = CacheBuilder.newBuilder().build[String, Future[List[String]]](
-      new CacheLoader[String, Future[List[String]]] {
-        def load(key: String) = Future(SlowDB.findRecipes(key))
-      }
-    )
+    val recipeCache = CacheBuilder
+      .newBuilder()
+      .build[String, Future[List[String]]](
+        new CacheLoader[String, Future[List[String]]] {
+          def load(key: String) = Future(SlowDB.findRecipes(key))
+        }
+      )
 
-
-    def recipesForFood(food: String): Future[List[String]] = {
+    def recipesForFood(food: String): Future[List[String]] =
       recipeCache.get(food)
-    }
   }
 
   test("cache should not take a long time to retrieve recipes for the same food") {
@@ -170,11 +171,17 @@ class Module01Solutions extends KoanSuite with Matchers {
     assert(eggRecipes eq eggRecipes3)
 
     // and getting the lists from all three of the egg recipes should take no more than around 1 second
-    Await.result(eggRecipes, 10.seconds) should be(List("ommelette", "french toast", "poached eggs"))
-    Await.result(eggRecipes2, 10.seconds) should be(List("ommelette", "french toast", "poached eggs"))
-    Await.result(eggRecipes3, 10.seconds) should be(List("ommelette", "french toast", "poached eggs"))
+    Await.result(eggRecipes, 10.seconds) should be(
+      List("ommelette", "french toast", "poached eggs")
+    )
+    Await.result(eggRecipes2, 10.seconds) should be(
+      List("ommelette", "french toast", "poached eggs")
+    )
+    Await.result(eggRecipes3, 10.seconds) should be(
+      List("ommelette", "french toast", "poached eggs")
+    )
 
-    val duration = (System.currentTimeMillis - startTime)
+    val duration = System.currentTimeMillis - startTime
     println("Total time %d millis".format(duration))
     // if (duration > 1500) fail(s"Took too long ($duration), must be doing more than one DB lookup for eggs")
 

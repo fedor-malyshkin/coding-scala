@@ -1,4 +1,3 @@
-
 /* Copyright (C) 2010-2019 Escalate Software, LLC. All rights reserved. */
 
 package udemy.advanced3.module12
@@ -9,7 +8,7 @@ import org.scalatest.matchers.must.Matchers
 import org.scalatest.matchers.should.Matchers.convertToAnyShouldWrapper
 
 import scala.annotation.tailrec
-import scala.util.control.TailCalls.{TailRec, done, tailcall}
+import scala.util.control.TailCalls.{done, tailcall, TailRec}
 
 class Module12Solutions extends AnyFunSpec with Matchers with SeveredStackTraces {
 

@@ -12,10 +12,12 @@ import scala.util.Random
 
 object PersistenceQueryDemo extends App {
 
-  val system = ActorSystem("PersistenceQueryDemo", ConfigFactory.load().getConfig("persistenceQuery"))
+  val system =
+    ActorSystem("PersistenceQueryDemo", ConfigFactory.load().getConfig("persistenceQuery"))
 
   // read journal
-  val readJournal = PersistenceQuery(system).readJournalFor[CassandraReadJournal](CassandraReadJournal.Identifier)
+  val readJournal =
+    PersistenceQuery(system).readJournalFor[CassandraReadJournal](CassandraReadJournal.Identifier)
 
   // give me all persistence IDs
   val persistenceIds = readJournal.currentPersistenceIds()
@@ -29,14 +31,14 @@ object PersistenceQueryDemo extends App {
   class SimplePersistentActor extends PersistentActor with ActorLogging {
     override def persistenceId: String = "persistence-query-id-1"
 
-    override def receiveCommand: Receive = {
-      case m => persist(m) { _ =>
+    override def receiveCommand: Receive = { case m =>
+      persist(m) { _ =>
         log.info(s"Persisted: $m")
       }
     }
 
-    override def receiveRecover: Receive = {
-      case e => log.info(s"Recovered: $e")
+    override def receiveRecover: Receive = { case e =>
+      log.info(s"Recovered: $e")
     }
   }
 
@@ -68,18 +70,16 @@ object PersistenceQueryDemo extends App {
 
     var latestPlaylistId = 0
 
-    override def receiveCommand: Receive = {
-      case Playlist(songs) =>
-        persist(PlaylistPurchased(latestPlaylistId, songs)) { _ =>
-          log.info(s"User purchased: $songs")
-          latestPlaylistId += 1
-        }
+    override def receiveCommand: Receive = { case Playlist(songs) =>
+      persist(PlaylistPurchased(latestPlaylistId, songs)) { _ =>
+        log.info(s"User purchased: $songs")
+        latestPlaylistId += 1
+      }
     }
 
-    override def receiveRecover: Receive = {
-      case event@PlaylistPurchased(id, _) =>
-        log.info(s"Recovered: $event")
-        latestPlaylistId = id
+    override def receiveRecover: Receive = { case event @ PlaylistPurchased(id, _) =>
+      log.info(s"Recovered: $event")
+      latestPlaylistId = id
     }
   }
 
@@ -87,7 +87,7 @@ object PersistenceQueryDemo extends App {
     override def manifest(event: Any): String = "musicStore"
 
     override def toJournal(event: Any): Any = event match {
-      case event@PlaylistPurchased(_, songs) =>
+      case event @ PlaylistPurchased(_, songs) =>
         val genres = songs.map(_.genre).toSet
         Tagged(event, genres)
       case event => event

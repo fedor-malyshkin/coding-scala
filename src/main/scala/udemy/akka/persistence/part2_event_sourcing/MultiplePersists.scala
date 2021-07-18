@@ -19,55 +19,59 @@ object MultiplePersists extends App {
 
   // EVENTS
   case class TaxRecord(taxId: String, recordId: Int, date: Date, totalAmount: Int)
+
   case class InvoiceRecord(invoiceRecordId: Int, recipient: String, date: Date, amount: Int)
 
-
   object DiligentAccountant {
-    def props(taxId: String, taxAuthority: ActorRef) = Props(new DiligentAccountant(taxId, taxAuthority))
+    def props(taxId: String, taxAuthority: ActorRef) = Props(
+      new DiligentAccountant(taxId, taxAuthority)
+    )
   }
 
-  class DiligentAccountant(taxId: String, taxAuthority: ActorRef) extends PersistentActor with ActorLogging {
+  class DiligentAccountant(taxId: String, taxAuthority: ActorRef)
+      extends PersistentActor
+      with ActorLogging {
 
     var latestTaxRecordId = 0
     var latestInvoiceRecordId = 0
 
     override def persistenceId: String = "diligent-accountant"
 
-    override def receiveCommand: Receive = {
-      case Invoice(recipient, date, amount) =>
-        // journal ! TaxRecord
-        persist(TaxRecord(taxId, latestTaxRecordId, date, amount / 3)) { record =>
-          taxAuthority ! record
-          latestTaxRecordId += 1
+    override def receiveCommand: Receive = { case Invoice(recipient, date, amount) =>
+      // journal ! TaxRecord
+      persist(TaxRecord(taxId, latestTaxRecordId, date, amount / 3)) { record =>
+        taxAuthority ! record
+        latestTaxRecordId += 1
 
-          persist("I hereby declare this tax record to be true and complete.") { declaration =>
-            taxAuthority ! declaration
-          }
+        persist("I hereby declare this tax record to be true and complete.") { declaration =>
+          taxAuthority ! declaration
         }
-        // journal ! InvoiceRecord
-        persist(InvoiceRecord(latestInvoiceRecordId, recipient, date, amount)) { invoiceRecord =>
-          taxAuthority ! invoiceRecord
-          latestInvoiceRecordId += 1
+      }
+      // journal ! InvoiceRecord
+      persist(InvoiceRecord(latestInvoiceRecordId, recipient, date, amount)) { invoiceRecord =>
+        taxAuthority ! invoiceRecord
+        latestInvoiceRecordId += 1
 
-          persist("I hereby declare this invoice record to be true.") { declaration =>
-            taxAuthority ! declaration
-          }
+        persist("I hereby declare this invoice record to be true.") { declaration =>
+          taxAuthority ! declaration
         }
+      }
     }
 
-    override def receiveRecover: Receive = {
-      case event => log.info(s"Recovered: $event")
+    override def receiveRecover: Receive = { case event =>
+      log.info(s"Recovered: $event")
     }
   }
 
   class TaxAuthority extends Actor with ActorLogging {
-    override def receive: Receive = {
-      case message => log.info(s"Received: $message")
+    override def receive: Receive = { case message =>
+      log.info(s"Received: $message")
     }
   }
 
   val config = ConfigFactory.load("udemy/akka/persistence/application.conf")
-  val system = ActorSystem("MulitplePersistsDemo", config.getConfig("localStores").withFallback(config))
+  val system =
+    ActorSystem("MulitplePersistsDemo", config.getConfig("localStores").withFallback(config))
   val taxAuthority = system.actorOf(Props[TaxAuthority], "HMRC")
   val accountant = system.actorOf(DiligentAccountant.props("UK52352_58325", taxAuthority))
 
@@ -77,9 +81,7 @@ object MultiplePersists extends App {
     The message ordering (TaxRecord -> InvoiceRecord) is GUARANTEED.
    */
 
-  /**
-    * PERSISTENCE IS ALSO BASED ON MESSAGE PASSING.
-    */
+  /** PERSISTENCE IS ALSO BASED ON MESSAGE PASSING. */
 
   // nested persisting
 

@@ -1,4 +1,3 @@
-
 /* Copyright (C) 2010-2017 Escalate Software, LLC. All rights reserved. */
 
 package udemy.advanced1.module5
@@ -21,9 +20,8 @@ class Module05Solutions extends AnyFunSuite with Matchers with SeveredStackTrace
     def reverse(x: T): T
   }
 
-  def reverse[T: Reversable](item: T): T = {
+  def reverse[T: Reversable](item: T): T =
     implicitly[Reversable[T]].reverse(item)
-  }
 
   // now, define an object ReversableString as an implementation of Reversable for String,
   // that simply calls reverse on the string.
@@ -69,7 +67,6 @@ class Module05Solutions extends AnyFunSuite with Matchers with SeveredStackTrace
     reverse(List("hello", "world")) should be(List("dlrow", "olleh"))
   }
 
-
   test("Create your own intercept method") {
     // using an implicit class tag, create a new interceptException[T] method such that the following tests pass.
 
@@ -83,11 +80,15 @@ class Module05Solutions extends AnyFunSuite with Matchers with SeveredStackTrace
       try {
         fn
         fail("Expected exception %s but didn't get it".format(ct.runtimeClass.getName))
-      }
-      catch {
+      } catch {
         case NonFatal(th) if th.getClass == ct.runtimeClass => /* this is what we want - ignore */
         case NonFatal(th) =>
-          fail("Expected exception %s but got exception %s".format(ct.runtimeClass.getName, th.getClass.getName))
+          fail(
+            "Expected exception %s but got exception %s".format(
+              ct.runtimeClass.getName,
+              th.getClass.getName
+            )
+          )
       }
     }
 
@@ -111,7 +112,6 @@ class Module05Solutions extends AnyFunSuite with Matchers with SeveredStackTrace
       }
     }
   }
-
 
   test("Implicit parameter example") {
 
@@ -148,8 +148,7 @@ class Module05Solutions extends AnyFunSuite with Matchers with SeveredStackTrace
             try {
               f
               None
-            }
-            catch {
+            } catch {
               case e: Exception => Some(e)
             }
           succeeded = optEx.isEmpty

@@ -1,4 +1,3 @@
-
 /* Copyright (C) 2010-2017 Escalate Software, LLC. All rights reserved. */
 
 package udemy.advanced1.module6
@@ -29,7 +28,6 @@ class Module06Solutions extends AnyFunSuite with Matchers with SeveredStackTrace
     xs.map(tReverse.reverse).reverse
   }
 
-
   // Write an implicit class ReverseAll to provide an extension method reverseIt to any
   // of Reversable T (using implicit bounds) so that when the reverse extension method is called
   // it reverses item
@@ -45,7 +43,9 @@ class Module06Solutions extends AnyFunSuite with Matchers with SeveredStackTrace
     }
   }
 
-  test("reverseAll on a Sequence of Reversables should reverse the whole seq, and each item inside") {
+  test(
+    "reverseAll on a Sequence of Reversables should reverse the whole seq, and each item inside"
+  ) {
     List(123, 456, 789).reverseIt should be(List(987, 654, 321))
     List("Hello", "Old", "Bean").reverseIt should be(List("naeB", "dlO", "olleH"))
   }
@@ -67,7 +67,7 @@ class Module06Solutions extends AnyFunSuite with Matchers with SeveredStackTrace
     override def equals(other: Any) = {
       other match {
         case c: Complex => (r == c.r) && (i == c.i)
-        case _ => false
+        case _          => false
       }
     }
 
@@ -106,7 +106,6 @@ class Module06Solutions extends AnyFunSuite with Matchers with SeveredStackTrace
   // the test compiles and the cars are sorted correctly
 
   case class Car(name: String, year: Int, engineSizeCCs: Int)
-
 
   implicit object CarOrdering extends Ordering[Car] {
     override def compare(x: Car, y: Car): Int = {

@@ -1,5 +1,3 @@
 package playground.cats.datatypes
 
-class CatsDataTypesPlayground {
-
-}
+class CatsDataTypesPlayground {}

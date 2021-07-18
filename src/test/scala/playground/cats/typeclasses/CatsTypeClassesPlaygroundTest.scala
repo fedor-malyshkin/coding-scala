@@ -19,8 +19,9 @@ class CatsTypeClassesPlaygroundTest extends AnyFlatSpec {
     val addFive: Int => Int = _ + 5
     (double.pure[Vector] <+> addFive.pure[Vector]) ap concatenated should be(Vector(14, 16, 12, 13))
 
-
-    Alternative[Vector].ap(Vector(double, addFive, double))(concatenated) should be(Vector(14, 16, 12, 13, 14, 16))
+    Alternative[Vector].ap(Vector(double, addFive, double))(concatenated) should be(
+      Vector(14, 16, 12, 13, 14, 16)
+    )
 
   }
   it should "check Applicative behaviour" in {
@@ -54,7 +55,9 @@ class CatsTypeClassesPlaygroundTest extends AnyFlatSpec {
     import cats.ApplicativeError
     import cats.instances.either._
 
-    def attemptDivideApplicativeError[F[_]](x: Int, y: Int)(implicit ae: ApplicativeError[F, String]): F[Int] = {
+    def attemptDivideApplicativeError[F[_]](x: Int, y: Int)(implicit
+      ae: ApplicativeError[F, String]
+    ): F[Int] = {
       if (y == 0) ae.raiseError("divisor is error")
       else {
         ae.pure(x / y)
@@ -73,18 +76,21 @@ class CatsTypeClassesPlaygroundTest extends AnyFlatSpec {
 
     // Tuple2 is also effect with 2 types = F[_,_]
     // list of balances and want divide them by the number of months in the lifetime of the account holder
-    val records: List[(Int, Int)] = List((450000, 3), (770000, 4), (990000, 2), (2100, 4), (43300, 3))
+    val records: List[(Int, Int)] =
+      List((450000, 3), (770000, 4), (990000, 2), (2100, 4), (43300, 3))
 
     // we want an average contribution per month
     def calculateContributionPerMonth(balance: Int, lifetime: Int) = balance / lifetime
 
     val result: List[Int] =
-      records.map(
-        record => record.bimap(
-          cents => cents / 100, // The balances are given in cents.
-          years => 12 * years
+      records
+        .map(record =>
+          record.bimap(
+            cents => cents / 100, // The balances are given in cents.
+            years => 12 * years
+          )
         )
-      ).map((calculateContributionPerMonth _).tupled)
+        .map((calculateContributionPerMonth _).tupled)
     // result: List[Int] = List(125, 160, 412, 0, 12)
 
   }
@@ -93,7 +99,6 @@ class CatsTypeClassesPlaygroundTest extends AnyFlatSpec {
 
     import cats.implicits._
     import cats.kernel.Eq
-
 
     // expression "1 === 1" cannot be used in ScalaTest
     Eq[Int].eqv(1, 1)
@@ -107,7 +112,6 @@ class CatsTypeClassesPlaygroundTest extends AnyFlatSpec {
 
     // expression "Foo(10, "") === Foo(10, "")" cannot be used in ScalaTest
     Eq[Foo].eqv(Foo(10, ""), Foo(10, "")) should be(true)
-
 
     val aEq = Eq.instance[Foo]((v1, v2) => v1.a == v2.a)
     val bEq = Eq.instance[Foo]((v1, v2) => v1.b == v2.b)
@@ -124,19 +128,28 @@ class CatsTypeClassesPlaygroundTest extends AnyFlatSpec {
 
     val keys = List(1, 2, 4, 5)
     Foldable[List].collectFirst(keys)({ case 1 => 11 }) should be(Some(11))
-    Foldable[List].collectFirst(keys)({ case 0 => 11
-    case 6 => 66
-    case 7 => 77
+    Foldable[List].collectFirst(keys)({
+      case 0 => 11
+      case 6 => 66
+      case 7 => 77
     }) should be(None)
     Foldable[List].combineAllOption(List("a", "b", "c")) should be(Some("abc"))
     Foldable[List].fold(List("a", "b", "c")) should be("abc")
-    Foldable[List].foldA(List(Either.right[String, Int](1), Either.right[String, Int](2))) should be(Right(3))
+    Foldable[List].foldA(
+      List(Either.right[String, Int](1), Either.right[String, Int](2))
+    ) should be(Right(3))
     Foldable[List].foldMap(List(1, 2, 4))(_.toString) should be("124")
     Foldable[List].foldK(List(List(1, 2, 3), List(2, 3, 4))) should be(List(1, 2, 3, 2, 3, 4))
     Foldable[List].reduceLeftToOption(List[Int]())(_.toString)((s, i) => s + i) should be(None)
-    Foldable[List].reduceLeftToOption(List(1, 2, 3, 4))(_.toString)((s, i) => s + i) should be(Some("1234"))
-    Foldable[List].reduceRightToOption(List(1, 2, 3, 4))(_.toString)((i, s) => Later(s.value + i)).value should be(Some("4321"))
-    Foldable[List].reduceRightToOption(List[Int]())(_.toString)((i, s) => Later(s.value + i)).value should be(None)
+    Foldable[List].reduceLeftToOption(List(1, 2, 3, 4))(_.toString)((s, i) => s + i) should be(
+      Some("1234")
+    )
+    Foldable[List]
+      .reduceRightToOption(List(1, 2, 3, 4))(_.toString)((i, s) => Later(s.value + i))
+      .value should be(Some("4321"))
+    Foldable[List]
+      .reduceRightToOption(List[Int]())(_.toString)((i, s) => Later(s.value + i))
+      .value should be(None)
     Foldable[List].find(List(1, 2, 3))(_ > 2) should be(Some(3))
     Foldable[List].exists(List(1, 2, 3))(_ > 2) should be(true)
     Foldable[List].forall(List(1, 2, 3))(_ > 2) should be(false)
@@ -149,7 +162,9 @@ class CatsTypeClassesPlaygroundTest extends AnyFlatSpec {
     Foldable[Option].toList(None) should be(List())
 
     val list = List(1, 2, 3, 4)
-    Foldable[List].partitionBifold(list)(a => ("value " + a.toString, if (a % 2 == 0) -a else a)) should
+    Foldable[List].partitionBifold(list)(a =>
+      ("value " + a.toString, if (a % 2 == 0) -a else a)
+    ) should
       be((List("value 1", "value 2", "value 3", "value 4"), List(1, -2, 3, -4)))
 
     /// traverse + sequence
@@ -161,18 +176,28 @@ class CatsTypeClassesPlaygroundTest extends AnyFlatSpec {
     Foldable[List].sequence_(List(Option(1), None)) should be(None)
 
     //sliding
-    Foldable[List].sliding4((1 to 8).toList) should be(List((1, 2, 3, 4), (2, 3, 4, 5), (3, 4, 5, 6), (4, 5, 6, 7), (5, 6, 7, 8)))
+    Foldable[List].sliding4((1 to 8).toList) should be(
+      List((1, 2, 3, 4), (2, 3, 4, 5), (3, 4, 5, 6), (4, 5, 6, 7), (5, 6, 7, 8))
+    )
 
     import cats.instances.list._
-    Foldable[List].forallM[Option, Int](List(1, 2, 3))(i => if (i < 2) Some(i % 2 == 0) else None) should be(Some(false))
+    Foldable[List].forallM[Option, Int](List(1, 2, 3))(i =>
+      if (i < 2) Some(i % 2 == 0) else None
+    ) should be(Some(false))
     // res21: Option[Boolean] = Some(false)
-    Foldable[List].existsM[Option, Int](List(1, 2, 3))(i => if (i < 2) Some(i % 2 == 0) else None) should be(None)
+    Foldable[List].existsM[Option, Int](List(1, 2, 3))(i =>
+      if (i < 2) Some(i % 2 == 0) else None
+    ) should be(None)
     // res22: Option[Boolean] = None
-    Foldable[List].existsM[Option, Int](List(1, 2, 3))(i => if (i < 3) Some(i % 2 == 0) else None) should be(Some(true))
+    Foldable[List].existsM[Option, Int](List(1, 2, 3))(i =>
+      if (i < 3) Some(i % 2 == 0) else None
+    ) should be(Some(true))
     // res23: Option[Boolean] = Some(true)
 
     Foldable[List].dropWhile_(List[Int](2, 4, 5, 6, 7))(_ % 2 == 0) should be(List(5, 6, 7))
-    Foldable[List].dropWhile_(List[Int](1, 2, 4, 5, 6, 7))(_ % 2 == 0) should be(List(1, 2, 4, 5, 6, 7))
+    Foldable[List].dropWhile_(List[Int](1, 2, 4, 5, 6, 7))(_ % 2 == 0) should be(
+      List(1, 2, 4, 5, 6, 7)
+    )
 
     import cats.data.Nested
     val listOption0 = Nested(List(Option(1), Option(2), Option(3)))
@@ -197,7 +222,8 @@ class CatsTypeClassesPlaygroundTest extends AnyFlatSpec {
 
     // compose
     val listOption = List(Some(1), None, Some(2))
-    val func: List[Option[Int]] => List[Option[Int]] = x => Functor[List].compose[Option].map(x)(_ + 1)
+    val func: List[Option[Int]] => List[Option[Int]] =
+      x => Functor[List].compose[Option].map(x)(_ + 1)
     func(listOption) should be(List(Some(2), None, Some(3)))
     // fproduct
     Functor[Option].fproduct(Some(100))(_ + 100) should be(Some((100, 200)))
@@ -221,7 +247,9 @@ class CatsTypeClassesPlaygroundTest extends AnyFlatSpec {
     import cats.Monad
     import cats.implicits._
 
-    Monad[List].ifM(List(true, false, true))(ifTrue = List(1, 2), ifFalse = List(3, 4)) should be(List(1, 2, 3, 4, 1, 2))
+    Monad[List].ifM(List(true, false, true))(ifTrue = List(1, 2), ifFalse = List(3, 4)) should be(
+      List(1, 2, 3, 4, 1, 2)
+    )
 
     //    Monad[List].iterateWhile(List(Some(1), Some(2), Some(3), None, Some(4)))(el => {
     //      println(el)
@@ -239,8 +267,12 @@ class CatsTypeClassesPlaygroundTest extends AnyFlatSpec {
     MonoidK[List].empty[String] should be(List())
     MonoidK[List].empty[Int] should be(List())
 
-    Monoid[List[String]].combine(List("hello", "world"), List("goodbye", "moon")) should be(List("hello", "world", "goodbye", "moon"))
-    MonoidK[List].combineK[String](List("hello", "world"), List("goodbye", "moon")) should be(List("hello", "world", "goodbye", "moon"))
+    Monoid[List[String]].combine(List("hello", "world"), List("goodbye", "moon")) should be(
+      List("hello", "world", "goodbye", "moon")
+    )
+    MonoidK[List].combineK[String](List("hello", "world"), List("goodbye", "moon")) should be(
+      List("hello", "world", "goodbye", "moon")
+    )
     MonoidK[List].combineK[Int](List(1, 2), List(3, 4)) should be(List(1, 2, 3, 4))
   }
   it should "check Parallel behaviour" in {
@@ -261,20 +293,17 @@ class CatsTypeClassesPlaygroundTest extends AnyFlatSpec {
     case class Age(value: Int)
     case class Person(name: Name, age: Age)
 
-    def parse(s: String): Either[NonEmptyList[String], Int] = {
+    def parse(s: String): Either[NonEmptyList[String], Int] =
       if (s.matches("-?[0-9]+")) Right(s.toInt)
       else Left(NonEmptyList.one(s"$s is not a valid integer."))
-    }
 
-    def validateAge(a: Int): Either[NonEmptyList[String], Age] = {
+    def validateAge(a: Int): Either[NonEmptyList[String], Age] =
       if (a > 18) Right(Age(a))
       else Left(NonEmptyList.one(s"$a is not old enough"))
-    }
 
-    def validateName(n: String): Either[NonEmptyList[String], Name] = {
+    def validateName(n: String): Either[NonEmptyList[String], Name] =
       if (n.length >= 8) Right(Name(n))
       else Left(NonEmptyList.one(s"$n Does not have enough characters"))
-    }
 
     def parsePerson(ageString: String, nameString: String) =
       for {
@@ -285,11 +314,19 @@ class CatsTypeClassesPlaygroundTest extends AnyFlatSpec {
     parsePerson("12", "BilliBob") should be(Left(NonEmptyList("12 is not old enough", List())))
     parsePerson("120", "BilliBob") should be(Right(Person(Name("BilliBob"), Age(120))))
 
-    val parSeqLeft = List(Either.right(42), Either.left(NonEmptyList.one("Error 1")), Either.left(NonEmptyList.one("Error 2"))).parSequence
+    val parSeqLeft = List(
+      Either.right(42),
+      Either.left(NonEmptyList.one("Error 1")),
+      Either.left(NonEmptyList.one("Error 2"))
+    ).parSequence
     parSeqLeft should be(Left(NonEmptyList("Error 1", List("Error 2"))))
     parSeqLeft.left.get.toList should be(List("Error 1", "Error 2"))
 
-    val seqLeft = List(Either.right(42), Either.left(NonEmptyList.one("Error 1")), Either.left(NonEmptyList.one("Error 2"))).sequence
+    val seqLeft = List(
+      Either.right(42),
+      Either.left(NonEmptyList.one("Error 1")),
+      Either.left(NonEmptyList.one("Error 2"))
+    ).sequence
     seqLeft should be(Left(NonEmptyList("Error 1", List())))
 
   }
@@ -301,8 +338,8 @@ class CatsTypeClassesPlaygroundTest extends AnyFlatSpec {
       opt.map(a |+| _).getOrElse(a)
 
     def mergeMap[K, V: Semigroup](lhs: Map[K, V], rhs: Map[K, V]): Map[K, V] =
-      lhs.foldLeft(rhs) {
-        case (acc, (k, v)) => acc.updated(k, optionCombine(v, acc.get(k)))
+      lhs.foldLeft(rhs) { case (acc, (k, v)) =>
+        acc.updated(k, optionCombine(v, acc.get(k)))
       }
 
     val ym1 = Map(1 -> List("hello"))
@@ -310,13 +347,17 @@ class CatsTypeClassesPlaygroundTest extends AnyFlatSpec {
 
     val y = mergeMap(ym1, ym2) should be(Map(2 -> List("cats"), 1 -> List("hello", "world")))
 
-    Semigroup.combineN(List("hello"), 5) should be(List("hello", "hello", "hello", "hello", "hello"))
+    Semigroup.combineN(List("hello"), 5) should be(
+      List("hello", "hello", "hello", "hello", "hello")
+    )
 
   }
   it should "check Traverse behaviour" in {
     import cats.Traverse
 
-    Traverse[List].traverse(List(1, 2, 3))(e => Option(e + 100)) should be(Some(List(101, 102, 103)))
+    Traverse[List].traverse(List(1, 2, 3))(e => Option(e + 100)) should be(
+      Some(List(101, 102, 103))
+    )
     Traverse[List].sequence(List(Option(1), Option(2), Option(3))) should be(Some(List(1, 2, 3)))
 
     val funIdentity = identity()

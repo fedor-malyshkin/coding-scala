@@ -8,7 +8,11 @@ import udemy.advanced2.module9.JSONWrite.jsonify
 
 import java.io.{BufferedReader, File, FileReader}
 
-class Module09Solutions extends AnyFunSpec with Matchers with SeveredStackTraces with CancelAfterFailure {
+class Module09Solutions
+    extends AnyFunSpec
+    with Matchers
+    with SeveredStackTraces
+    with CancelAfterFailure {
 
   describe("RoShamBo") {
     // Create an Algebraic Data Type of RoShamBo with three sub types, Rock, Paper and Scissors
@@ -28,20 +32,20 @@ class Module09Solutions extends AnyFunSpec with Matchers with SeveredStackTraces
     object Scissors extends RoShamBo
 
     def rock(play: RoShamBo): Outcome = play match {
-      case Rock => Draw
-      case Paper => Lose
+      case Rock     => Draw
+      case Paper    => Lose
       case Scissors => Win
     }
 
     def paper(play: RoShamBo): Outcome = play match {
-      case Rock => Win
-      case Paper => Draw
+      case Rock     => Win
+      case Paper    => Draw
       case Scissors => Lose
     }
 
     def scissors(play: RoShamBo): Outcome = play match {
-      case Rock => Lose
-      case Paper => Win
+      case Rock     => Lose
+      case Paper    => Win
       case Scissors => Draw
     }
 
@@ -72,16 +76,16 @@ class Module09Solutions extends AnyFunSpec with Matchers with SeveredStackTraces
       try {
         val line = f.readLine.trim
         fn(line)
-      }
-      finally {
+      } finally {
         f.close()
       }
     }
 
     it("should work on provided resource files") {
-      def resourceFile(name: String): File = new File(this.getClass.getClassLoader.getResource("udemy/advanced2/module9/" +name).toURI)
+      def resourceFile(name: String): File =
+        new File(this.getClass.getClassLoader.getResource("udemy/advanced2/module9/" + name).toURI)
 
-      val palindrome = withFileContents(resourceFile("quote.txt")) { str => str.reverse }
+      val palindrome = withFileContents(resourceFile("quote.txt"))(str => str.reverse)
       palindrome should be("Madam, I'm Adam")
 
       val total = withFileContents(resourceFile("nums.txt")) { str =>
@@ -121,12 +125,11 @@ class Module09Solutions extends AnyFunSpec with Matchers with SeveredStackTraces
     // follow the instructions there. Once you have written the code, uncomment below to test
     // it out.
 
-
     it("should work for a Person") {
       val p1 = Person("Harry", "Potter", 34)
-      jsonify(p1) should be ("""{
-                               |  "Person": {"first": "Harry", "last": "Potter", "age": 34}
-                               |}""".stripMargin)
+      jsonify(p1) should be("""{
+          |  "Person": {"first": "Harry", "last": "Potter", "age": 34}
+          |}""".stripMargin)
     }
 
   }

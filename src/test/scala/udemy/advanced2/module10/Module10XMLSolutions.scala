@@ -1,14 +1,14 @@
-
 /* Copyright (C) 2010-2018 Escalate Software, LLC. All rights reserved. */
 
 package udemy.advanced2.module10
-import java.io.File
-import support.KoanSuite
 
-import xml.Node
 import org.scalatest.SeveredStackTraces
 import org.scalatest.matchers.must.Matchers
 import org.scalatest.matchers.should.Matchers.convertToAnyShouldWrapper
+import udemy.advanced2.module10.support.KoanSuite
+
+import java.io.File
+import scala.xml.Node
 
 class Module10XMLSolutions extends KoanSuite with Matchers with SeveredStackTraces {
 
@@ -19,6 +19,7 @@ class Module10XMLSolutions extends KoanSuite with Matchers with SeveredStackTrac
     def toXML: Node
   }
 
+  // format: off
   case class Book(title: String, author: String, year: Int, pages: Int) extends LibraryItem {
     def toXML: Node = <book>
       <title>{title}</title>
@@ -82,39 +83,47 @@ class Module10XMLSolutions extends KoanSuite with Matchers with SeveredStackTrac
 
     val catcherBook = Book("Catcher in the Rye", "J.D. Salinger", 1951, 224).toXML
 
-    asFlatString(catcherBook) should be ("<book><title>Catcher in the Rye</title><author>J.D. Salinger</author><year>1951</year>" +
-       "<pages>224</pages></book>")
+    asFlatString(catcherBook) should be("<book><title>Catcher in the Rye</title><author>J.D. Salinger</author><year>1951</year>" +
+      "<pages>224</pages></book>")
 
     val nationalGeographic = Journal("National Geographic", 170, 12, 2005).toXML
 
-    asFlatString(nationalGeographic) should be ("<journal><title>National Geographic</title><issue>170</issue><month>12</month><year>2005</year></journal>")
+    asFlatString(nationalGeographic) should be("<journal><title>National Geographic</title><issue>170</issue><month>12</month><year>2005</year></journal>")
 
     val spinalTap = DVD("This is Spinal Tap", "Rob Reiner", 1984, 82).toXML
-    
-    asFlatString(spinalTap) should be ("<dvd><title>This is Spinal Tap</title><director>Rob Reiner</director><year>1984</year><length>82</length></dvd>")
+
+    asFlatString(spinalTap) should be("<dvd><title>This is Spinal Tap</title><director>Rob Reiner</director><year>1984</year><length>82</length></dvd>")
 
     val wolfsbaneLfdf = CD("Live Fast, Die Fast", "Wolfsbane", 1989, 35).toXML
 
-    asFlatString(wolfsbaneLfdf) should be ("<cd><title>Live Fast, Die Fast</title><artist>Wolfsbane</artist><year>1989</year><length>35</length></cd>")
+    asFlatString(wolfsbaneLfdf) should be("<cd><title>Live Fast, Die Fast</title><artist>Wolfsbane</artist><year>1989</year><length>35</length></cd>")
   }
 
   koan("fromXML in each of the companion objects") {
     // now fill out the fromXML in the companion objects so that the following work
-    val catcherBook = Book.fromXML(<book><title>Catcher in the Rye</title><author>J.D. Salinger</author><year>1951</year><pages>224</pages></book>)
+    val catcherBook = Book.fromXML(<book>
+      <title>Catcher in the Rye</title> <author>J.D. Salinger</author> <year>1951</year> <pages>224</pages>
+    </book>)
 
-    catcherBook should be (Book("Catcher in the Rye", "J.D. Salinger", 1951, 224))
+    catcherBook should be(Book("Catcher in the Rye", "J.D. Salinger", 1951, 224))
 
-    val nationalGeographic = Journal.fromXML(<journal><title>National Geographic</title><issue>170</issue><month>12</month><year>2005</year></journal>)
+    val nationalGeographic = Journal.fromXML(<journal>
+      <title>National Geographic</title> <issue>170</issue> <month>12</month> <year>2005</year>
+    </journal>)
 
-    nationalGeographic should be (Journal("National Geographic", 170, 12, 2005))
+    nationalGeographic should be(Journal("National Geographic", 170, 12, 2005))
 
-    val spinalTap = DVD.fromXML(<dvd><title>This is Spinal Tap</title><director>Rob Reiner</director><year>1984</year><length>82</length></dvd>)
+    val spinalTap = DVD.fromXML(<dvd>
+      <title>This is Spinal Tap</title> <director>Rob Reiner</director> <year>1984</year> <length>82</length>
+    </dvd>)
 
-    spinalTap should be (DVD("This is Spinal Tap", "Rob Reiner", 1984, 82))
+    spinalTap should be(DVD("This is Spinal Tap", "Rob Reiner", 1984, 82))
 
-    val wolfsbaneLfdf = CD.fromXML(<cd><title>Live Fast, Die Fast</title><artist>Wolfsbane</artist><year>1989</year><length>35</length></cd>)
+    val wolfsbaneLfdf = CD.fromXML(<cd>
+      <title>Live Fast, Die Fast</title> <artist>Wolfsbane</artist> <year>1989</year> <length>35</length>
+    </cd>)
 
-    wolfsbaneLfdf should be (CD("Live Fast, Die Fast", "Wolfsbane", 1989, 35))
+    wolfsbaneLfdf should be(CD("Live Fast, Die Fast", "Wolfsbane", 1989, 35))
   }
 
   koan("Attribute access") {
@@ -131,7 +140,7 @@ class Module10XMLSolutions extends KoanSuite with Matchers with SeveredStackTrac
       <item name="XLR M to XLR M cable" price="24.95"/>
     </cart>
 
-    totalPrices(cart) should be (470.85 +- (0.001))
+    totalPrices(cart) should be(470.85 +- (0.001))
   }
 
   koan("Parsing the XML file") {
@@ -157,30 +166,33 @@ class Module10XMLSolutions extends KoanSuite with Matchers with SeveredStackTrac
             case cd @ <cd>{_*}</cd> => Some(CD.fromXML(cd.head))
             case _ => None  // ignore any whitespace nodes that don't match the above
           }
-          items.flatten   // filter out the Nones from the list
+          items.flatten // filter out the Nones from the list
         case _ => Nil // if not a library - just return Nil
       }
     }
+    // format: on
 
     val items = readInLibraryItems("LibraryItems.xml")
 
-    items should be (List(
-      Book("Catcher in the Rye", "J.D. Salinger", 1951, 224),
-      Journal("National Geographic", 170, 12, 2005),
-      DVD("This is Spinal Tap", "Rob Reiner", 1984, 82),
-      CD("Live Fast, Die Fast", "Wolfsbane", 1989, 35),
-      Book("Daemon", "Daniel Suarez", 2009, 448),
-      Journal("American Motorcyclist", 58, 12, 2010),
-      DVD("The Mummy", "Stephen Sommers", 1999, 125),
-      CD("Masterplan", "Oasis", 1998, 68),
-      Book("Lila", "Robert M. Pirsig", 1992, 480),
-      Journal("Linux Format", 200, 11, 2010),
-      DVD("Coraline", "Henry Selick", 2009, 96),
-      CD("Alright, Still", "Lily Allen", 2007, 46)
-    ))
-    
+    items should be(
+      List(
+        Book("Catcher in the Rye", "J.D. Salinger", 1951, 224),
+        Journal("National Geographic", 170, 12, 2005),
+        DVD("This is Spinal Tap", "Rob Reiner", 1984, 82),
+        CD("Live Fast, Die Fast", "Wolfsbane", 1989, 35),
+        Book("Daemon", "Daniel Suarez", 2009, 448),
+        Journal("American Motorcyclist", 58, 12, 2010),
+        DVD("The Mummy", "Stephen Sommers", 1999, 125),
+        CD("Masterplan", "Oasis", 1998, 68),
+        Book("Lila", "Robert M. Pirsig", 1992, 480),
+        Journal("Linux Format", 200, 11, 2010),
+        DVD("Coraline", "Henry Selick", 2009, 96),
+        CD("Alright, Still", "Lily Allen", 2007, 46)
+      )
+    )
+
   }
-  
+
   // the following allows us to compare XML nodes easily by getting rid of all whitespace and formatting
   // so we can do a string compare
   def asFlatString(node: scala.xml.Node): String =

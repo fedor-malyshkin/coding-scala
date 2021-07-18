@@ -1,6 +1,5 @@
 package playground.cats
 
-
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.must.Matchers.be
 import org.scalatest.matchers.should.Matchers.convertToAnyShouldWrapper
@@ -16,7 +15,6 @@ class CatsPlaygroundTest extends AnyFlatSpec {
     import cats.{Applicative, Functor, Id}
 
     import scala.collection.concurrent.TrieMap
-
 
     trait OrderRepository[F[_]] {
       def create(order: Order): F[Order]
@@ -36,7 +34,7 @@ class CatsPlaygroundTest extends AnyFlatSpec {
           EitherT.fromOptionF(orderRepo.get(id), OrderNotFoundError)
       }
 
-      class OrderRepositoryInMemory[F[_] : Applicative] extends OrderRepository[F] {
+      class OrderRepositoryInMemory[F[_]: Applicative] extends OrderRepository[F] {
         private val cache = new TrieMap[Long, Order]
 
         def create(order: Order): F[Order] = {
@@ -57,13 +55,13 @@ class CatsPlaygroundTest extends AnyFlatSpec {
 
       val goodOrder = Order(Some(2), 12, None)
 
-
       service.placeOrder(Order(None, 12L, None)) should be(goodOrder)
       val existing = service.get(2)
       val goodResponse = EitherT[Id, OrderNotFoundError.type, Order]((Either.right(goodOrder)))
       existing should be(goodResponse)
       val notExisting = service.get(0)
-      val badResponse = EitherT[Id, OrderNotFoundError.type, Order]((Either.left(OrderNotFoundError)))
+      val badResponse =
+        EitherT[Id, OrderNotFoundError.type, Order]((Either.left(OrderNotFoundError)))
       notExisting should be(badResponse)
 
     }
@@ -75,7 +73,6 @@ class CatsPlaygroundTest extends AnyFlatSpec {
     import cats.data.EitherT
     import cats.syntax.all._
     import cats.{Applicative, Id, Monad}
-
 
     trait PetRepositoryAlgebra[F[_]] {
       def create(pet: Pet): F[Pet]
@@ -92,9 +89,9 @@ class CatsPlaygroundTest extends AnyFlatSpec {
     }
 
     class PetService[F[_]](
-                            repository: PetRepositoryAlgebra[F],
-                            validation: PetValidationAlgebra[F],
-                          ) {
+      repository: PetRepositoryAlgebra[F],
+      validation: PetValidationAlgebra[F]
+    ) {
       def create(pet: Pet)(implicit M: Monad[F]): EitherT[F, PetAlreadyExistsError, Pet] =
         for {
           _ <- validation.doesNotExist(pet)
@@ -110,9 +107,11 @@ class CatsPlaygroundTest extends AnyFlatSpec {
 
     }
 
-    class PetValidationAlgebraStatic[F[_] : Applicative](doesExist: Boolean, notExists: Boolean) extends PetValidationAlgebra[F] {
+    class PetValidationAlgebraStatic[F[_]: Applicative](doesExist: Boolean, notExists: Boolean)
+        extends PetValidationAlgebra[F] {
       override def doesNotExist(pet: Pet): EitherT[F, PetAlreadyExistsError, Unit] =
-        if (doesExist) EitherT(Either.left[PetAlreadyExistsError, Unit](PetAlreadyExistsError(pet)).pure[F])
+        if (doesExist)
+          EitherT(Either.left[PetAlreadyExistsError, Unit](PetAlreadyExistsError(pet)).pure[F])
         else EitherT(Either.right[PetAlreadyExistsError, Unit](()).pure[F])
 
       override def exists(petId: Option[Long]): EitherT[F, PetNotFoundError.type, Unit] =
@@ -120,7 +119,7 @@ class CatsPlaygroundTest extends AnyFlatSpec {
         else EitherT(Either.left[PetNotFoundError.type, Unit](PetNotFoundError).pure[F])
     }
 
-    class PetRepositoryAlgebraInMemory[F[_] : Applicative] extends PetRepositoryAlgebra[F] {
+    class PetRepositoryAlgebraInMemory[F[_]: Applicative] extends PetRepositoryAlgebra[F] {
       override def create(pet: Pet): F[Pet] = pet.pure[F]
 
       override def update(pet: Pet): F[Option[Pet]] = pet.some.pure[F]
@@ -129,7 +128,8 @@ class CatsPlaygroundTest extends AnyFlatSpec {
     val samplePet = Pet("puppy", "domesticated pet", "was bor and lives")
 
     it should "check Monad behaviour [SUCCESS](create)" in {
-      val validator: PetValidationAlgebraStatic[Id] = new PetValidationAlgebraStatic[Id](false, false)
+      val validator: PetValidationAlgebraStatic[Id] =
+        new PetValidationAlgebraStatic[Id](false, false)
       val repo: PetRepositoryAlgebraInMemory[Id] = new PetRepositoryAlgebraInMemory()
       val service: PetService[Id] = new PetService(repo, validator)
 
@@ -139,23 +139,26 @@ class CatsPlaygroundTest extends AnyFlatSpec {
     }
 
     it should "check Monad behaviour [FAILURE](create)" in {
-      val validator: PetValidationAlgebraStatic[Id] = new PetValidationAlgebraStatic[Id](true, false)
+      val validator: PetValidationAlgebraStatic[Id] =
+        new PetValidationAlgebraStatic[Id](true, false)
       val repo: PetRepositoryAlgebraInMemory[Id] = new PetRepositoryAlgebraInMemory()
       val service: PetService[Id] = new PetService(repo, validator)
 
       // failure path
-      val expected = EitherT(Either.left[PetAlreadyExistsError, Pet](PetAlreadyExistsError(samplePet)).pure[Id])
+      val expected =
+        EitherT(Either.left[PetAlreadyExistsError, Pet](PetAlreadyExistsError(samplePet)).pure[Id])
       val response = service.create(samplePet)
       response should be(response)
     }
 
     it should "check Monad behaviour [SUCCESS](update)" in {
-      val validator: PetValidationAlgebraStatic[Id] = new PetValidationAlgebraStatic[Id](true, false)
+      val validator: PetValidationAlgebraStatic[Id] =
+        new PetValidationAlgebraStatic[Id](true, false)
       val repo: PetRepositoryAlgebraInMemory[Id] = new PetRepositoryAlgebraInMemory()
       val service: PetService[Id] = new PetService(repo, validator)
 
       // success path
-      val expected = EitherT(Either.right[PetNotFoundError.type , Pet](samplePet).pure[Id])
+      val expected = EitherT(Either.right[PetNotFoundError.type, Pet](samplePet).pure[Id])
       val response = service.update(samplePet)
       response should be(response)
     }

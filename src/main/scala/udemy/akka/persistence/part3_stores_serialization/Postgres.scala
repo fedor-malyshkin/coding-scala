@@ -5,8 +5,10 @@ import com.typesafe.config.ConfigFactory
 
 object Postgres extends App {
 
-  val postgresActorSystem = ActorSystem("postgresSystem", ConfigFactory.load().getConfig("postgresDemo"))
-  val persistentActor = postgresActorSystem.actorOf(Props[SimplePersistentActor], "simplePersistentActor")
+  val postgresActorSystem =
+    ActorSystem("postgresSystem", ConfigFactory.load().getConfig("postgresDemo"))
+  val persistentActor =
+    postgresActorSystem.actorOf(Props[SimplePersistentActor], "simplePersistentActor")
 
   for (i <- 1 to 10) {
     persistentActor ! s"I love Akka [$i]"

@@ -16,8 +16,8 @@ class Module04My extends AnyFunSpec with Matchers with SeveredStackTraces {
 
   // uncomment the following to test your sameLength implementation
   describe("Function sameLength") {
-    def sameLength(l1: {def length: Int}, l2: {def length: Int}): Boolean = l1.length == l2.length
-
+    def sameLength(l1: { def length: Int }, l2: { def length: Int }): Boolean =
+      l1.length == l2.length
 
     it("should compare 2 lists of the same length correctly") {
       sameLength(List(1, 2, 3), List("1", "2", "3")) should be(true)
@@ -52,15 +52,13 @@ class Module04My extends AnyFunSpec with Matchers with SeveredStackTraces {
 
   case class Banana(name: String, potassium: Int) extends Fruit
 
-
   sealed trait Meat
 
   case class Beef(name: String, ph: Int) extends Meat
 
-
   describe("Using refinement types") {
     // create a method that returns the ph for a fruit but only if the fruit has a ph method
-    def phForFruit(x: Fruit {def ph: Int}) = x.ph
+    def phForFruit(x: Fruit { def ph: Int }) = x.ph
 
     // uncomment the following to test it
     it("should give ph for a Lemon") {
@@ -84,8 +82,7 @@ class Module04My extends AnyFunSpec with Matchers with SeveredStackTraces {
     // and uncomment below to test it
     describe("Using a collection of ph Fruits") {
       it("should only allow Fruits with a ph to be added") {
-        val phFruits = new ListBuffer[Fruit {def ph: Int}]()
-
+        val phFruits = new ListBuffer[Fruit { def ph: Int }]()
 
         phFruits += Lemon("Jif", 4)
         phFruits += Grapefruit("Pink", 3)

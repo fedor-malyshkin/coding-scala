@@ -1,4 +1,3 @@
-
 /* Copyright (C) 2010-2017 Escalate Software, LLC. All rights reserved. */
 
 package udemy.advanced1.module5
@@ -20,9 +19,8 @@ class Module05 extends AnyFunSuite with Matchers with SeveredStackTraces {
     def reverse(x: T): T
   }
 
-  def reverse[T: Reversable](item: T): T = {
+  def reverse[T: Reversable](item: T): T =
     implicitly[Reversable[T]].reverse(item)
-  }
 
   // now, define an object ReversableString as an implementation of Reversable for String,
   // that simply calls reverse on the string.
@@ -42,12 +40,12 @@ class Module05 extends AnyFunSuite with Matchers with SeveredStackTraces {
   implicit object ReversableInt extends Reversable[Int] {
     override def reverse(x: Int): Int = Integer.parseInt(x.toString.reverse)
   }
+
   test("ReversableInt reverses the digits in an Int") {
     reverse(12345) should be(54321)
     reverse(1) should be(1)
     reverse(100) should be(1) // this is why this is a bit of a crap example :-)
   }
-
 
   // Write an implicit def to compose any T with reversable into a reverser for a List of T
   // that reverses both the contents of the List, and the List itself. Uncomment below to test.
@@ -58,7 +56,6 @@ class Module05 extends AnyFunSuite with Matchers with SeveredStackTraces {
       .map(reverser.reverse)
       .reverse
   }
-
 
   test("Reverse a List of Ints") {
     reverse(List(123, 456, 100)) should be(List(1, 654, 321))
@@ -74,7 +71,7 @@ class Module05 extends AnyFunSuite with Matchers with SeveredStackTraces {
       a
     } catch {
       case _: E => return
-      case r => fail(s"Blimey! Wrong exception. Expected ${ct.runtimeClass} was ${r.getClass}")
+      case r    => fail(s"Blimey! Wrong exception. Expected ${ct.runtimeClass} was ${r.getClass}")
     }
     fail("Blimey! No exception at all.")
   }
@@ -97,7 +94,7 @@ class Module05 extends AnyFunSuite with Matchers with SeveredStackTraces {
     // interceptException - how very meta :-)
     interceptException[TestFailedException] { // we should get a test failed exception here
       interceptException[ArithmeticException] { // this is the one that should not actually occur
-        val x = 1 / 1   // well now, we shouldn't get an exception here should we?
+        val x = 1 / 1 // well now, we shouldn't get an exception here should we?
       }
     }
 
@@ -132,7 +129,6 @@ class Module05 extends AnyFunSuite with Matchers with SeveredStackTraces {
       implicit val maxTries: MaxTries = MaxTries(10)
       implicit val interval: Interval = Interval(100)
 
-
       def eventually(f: => Unit)(implicit maxTries: MaxTries, interval: Interval) {
         eventuallyWith(maxTries.value, interval.value)(f)
       }
@@ -141,15 +137,15 @@ class Module05 extends AnyFunSuite with Matchers with SeveredStackTraces {
         try {
           f
         } catch {
-          case NonFatal(e) => if (maxTries > 0) {
-            Thread.sleep(interval)
-            eventuallyWith(maxTries - 1, interval)(f)
-          } else
-            throw e
+          case NonFatal(e) =>
+            if (maxTries > 0) {
+              Thread.sleep(interval)
+              eventuallyWith(maxTries - 1, interval)(f)
+            } else
+              throw e
         }
       }
     }
-
 
     import Eventually._
 
@@ -167,6 +163,5 @@ class Module05 extends AnyFunSuite with Matchers with SeveredStackTraces {
       }
     }
   }
-
 
 }

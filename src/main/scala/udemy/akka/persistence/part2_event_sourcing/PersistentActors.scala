@@ -6,7 +6,6 @@ import com.typesafe.config.ConfigFactory
 
 import java.util.Date
 
-
 object PersistentActors extends App {
 
   /*
@@ -15,6 +14,7 @@ object PersistentActors extends App {
 
   // COMMANDS
   case class Invoice(recipient: String, date: Date, amount: Int)
+
   case class InvoiceBulk(invoices: List[Invoice])
 
   // Special messsages
@@ -30,9 +30,7 @@ object PersistentActors extends App {
 
     override def persistenceId: String = "simple-accountant" // best practice: make it unique
 
-    /**
-      * The "normal" receive method
-      */
+    /** The "normal" receive method */
     override def receiveCommand: Receive = {
       case Invoice(recipient, date, amount) =>
         /*
@@ -43,8 +41,7 @@ object PersistentActors extends App {
          */
         log.info(s"Receive invoice for amount: $amount")
         persist(InvoiceRecorded(latestInvoiceId, recipient, date, amount))
-          /* time gap: all other messages sent to this actor are STASHED */
-        { e =>
+        /* time gap: all other messages sent to this actor are STASHED */ { e =>
           // SAFE to access mutable state here
 
           // update state
@@ -83,9 +80,7 @@ object PersistentActors extends App {
         log.info(s"Latest invoice id: $latestInvoiceId, total amount: $totalAmount")
     }
 
-    /**
-      Handler that will be called on recovery
-     */
+    /** Handler that will be called on recovery */
     override def receiveRecover: Receive = {
       /*
         best practice: follow the logic in the persist steps of receiveCommand
@@ -131,10 +126,10 @@ object PersistentActors extends App {
    */
 
   /**
-    * Persisting multiple events
-    *
-    * persistAll
-    */
+   * Persisting multiple events
+   *
+   * persistAll
+   */
   val newInvoices = for (i <- 1 to 5) yield Invoice("The awesome chairs", new Date, i * 2000)
   //  accountant ! InvoiceBulk(newInvoices.toList)
 
@@ -143,10 +138,10 @@ object PersistentActors extends App {
    */
 
   /**
-    * Shutdown of persistent actors
-    *
-    * Best practice: define your own "shutdown" messages
-    */
-//  accountant ! PoisonPill
+   * Shutdown of persistent actors
+   *
+   * Best practice: define your own "shutdown" messages
+   */
+  //  accountant ! PoisonPill
   accountant ! Shutdown
 }

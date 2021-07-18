@@ -1,4 +1,3 @@
-
 /* Copyright (C) 2010-2017 Escalate Software, LLC. All rights reserved. */
 
 package udemy.advanced2.module8
@@ -32,21 +31,35 @@ class Module08My extends AnyFunSuite with Matchers with SeveredStackTraces {
     // will need to change the testSetup function a little as well for the new data representation.
 
     def testSetup(): Seq[Route] = {
-      val route1 = Route("Glen Gach to Glen Pach",
-        Some(Train("The Flying Scotsman",
-          List(Carriage(List(Passenger("Rob Roy", Some("121-212-1212")), Passenger("Connor McCleod", None))),
-            Carriage(List(Passenger("Joey McDougall", Some("454-545-4545")))))
-        ))
+      val route1 = Route(
+        "Glen Gach to Glen Pach",
+        Some(
+          Train(
+            "The Flying Scotsman",
+            List(
+              Carriage(
+                List(Passenger("Rob Roy", Some("121-212-1212")), Passenger("Connor McCleod", None))
+              ),
+              Carriage(List(Passenger("Joey McDougall", Some("454-545-4545"))))
+            )
+          )
+        )
       )
 
       val route2 = Route("Defuncto 1", None)
 
-      val route3 = Route("Busy Route of Luddites",
-        Some(Train("The Tech Express",
-          List(Carriage(List(Passenger("Ug", None), Passenger("Glug", None))),
-            Carriage(Nil),
-            Carriage(List(Passenger("Smug", Some("323-232-3232")))))
-        ))
+      val route3 = Route(
+        "Busy Route of Luddites",
+        Some(
+          Train(
+            "The Tech Express",
+            List(
+              Carriage(List(Passenger("Ug", None), Passenger("Glug", None))),
+              Carriage(Nil),
+              Carriage(List(Passenger("Smug", Some("323-232-3232"))))
+            )
+          )
+        )
       )
 
       List(route1, route2, route3)
@@ -59,8 +72,7 @@ class Module08My extends AnyFunSuite with Matchers with SeveredStackTraces {
         carriages <- activeTrain.carriages
         passengers <- carriages.passengers
         cellPhoneNumber <- passengers.cellPhoneNumber
-      }
-      yield cellPhoneNumber
+      } yield cellPhoneNumber
     }
 
     // now do the actual test
@@ -71,7 +83,6 @@ class Module08My extends AnyFunSuite with Matchers with SeveredStackTraces {
     cellList should contain("454-545-4545")
     cellList should contain("323-232-3232")
   }
-
 
   test("Count the vowels") {
     // write an idiomatic scala method to count the vowels in a given string so that the tests below pass.
@@ -118,42 +129,41 @@ class Module08My extends AnyFunSuite with Matchers with SeveredStackTraces {
     def map[B](fn: A => B): MaybeError[B] = {
       either match {
         case Left(error) => MaybeError.Error[Nothing](error)
-        case Right(value) => try {
-          MaybeError.Value[B](fn(value))
-        } catch {
-          case ex: Exception => MaybeError.Error(ex.toString)
-        }
+        case Right(value) =>
+          try {
+            MaybeError.Value[B](fn(value))
+          } catch {
+            case ex: Exception => MaybeError.Error(ex.toString)
+          }
       }
     }
 
     def value: A = {
       either match {
-        case Left(error) => throw new IllegalStateException(error)
+        case Left(error)  => throw new IllegalStateException(error)
         case Right(value) => value
       }
     }
 
     def error: Option[String] = {
       either match {
-        case Left(error) => Some(error)
+        case Left(error)  => Some(error)
         case Right(value) => None
       }
     }
 
     override def toString: String = either match {
-      case Left(error) => "Error(%s)".format(error)
+      case Left(error)  => "Error(%s)".format(error)
       case Right(value) => "Value(%s)".format(value.toString)
     }
   }
 
   object MaybeError {
-    def Error[Nothing](msg: String) = {
+    def Error[Nothing](msg: String) =
       new MaybeError(Left(msg))
-    }
 
-    def Value[B](value: B) = {
+    def Value[B](value: B) =
       new MaybeError[B](Right(value))
-    }
   }
 
   test("MaybeError work flow") {
@@ -195,9 +205,9 @@ class Module08My extends AnyFunSuite with Matchers with SeveredStackTraces {
 
   def isGood(numberRow: Seq[Int]): Boolean =
     numberRow match {
-      case nr if nr.distinct.size != 4 => false
+      case nr if nr.distinct.size != 4          => false
       case nr if nr.exists(x => x < 1 || x > 4) => false
-      case _ => true
+      case _                                    => true
     }
 
   test("isGood function works") {
@@ -216,7 +226,8 @@ class Module08My extends AnyFunSuite with Matchers with SeveredStackTraces {
   // so that columns become rows and rows become columns. It should pass the following tests
 
   def transpose(matrix: Seq[Seq[Int]]): Seq[Seq[Int]] = {
-    if (matrix == Nil) Nil else {
+    if (matrix == Nil) Nil
+    else {
       val cols = matrix.head.size
       require(matrix.tail.forall(_.size == cols), "Irregular shaped matrix, must be rectangular")
       val rows = matrix.size
@@ -232,8 +243,12 @@ class Module08My extends AnyFunSuite with Matchers with SeveredStackTraces {
     transpose(Nil) should be(Nil)
     transpose(Seq(Seq(1))) should be(Seq(Seq(1)))
     transpose(Seq(Seq(1, 2))) should be(Seq(Seq(1), Seq(2)))
-    transpose(Seq(Seq(1, 2), Seq(3, 4), Seq(5, 6), Seq(7, 8))) should be(Seq(Seq(1, 3, 5, 7), Seq(2, 4, 6, 8)))
-    transpose(Seq(Seq(1, 2, 3), Seq(4, 5, 6), Seq(7, 8, 9))) should be(Seq(Seq(1, 4, 7), Seq(2, 5, 8), Seq(3, 6, 9)))
+    transpose(Seq(Seq(1, 2), Seq(3, 4), Seq(5, 6), Seq(7, 8))) should be(
+      Seq(Seq(1, 3, 5, 7), Seq(2, 4, 6, 8))
+    )
+    transpose(Seq(Seq(1, 2, 3), Seq(4, 5, 6), Seq(7, 8, 9))) should be(
+      Seq(Seq(1, 4, 7), Seq(2, 5, 8), Seq(3, 6, 9))
+    )
     intercept[IllegalArgumentException] {
       transpose(Seq(Seq(1, 2, 3), Seq(4, 5, 6, 7)))
     }
@@ -285,11 +300,13 @@ class Module08My extends AnyFunSuite with Matchers with SeveredStackTraces {
       group2x2(Seq(Seq(1, 2, 3, 4), Seq(5, 6, 7, 8), Seq(9, 10, 11), Seq(13, 14, 15, 16)))
     }
 
-    group2x2(Seq(Seq(1, 2, 3, 4), Seq(5, 6, 7, 8), Seq(9, 10, 11, 12), Seq(13, 14, 15, 16))) should be(
-      Seq(Seq(1, 2, 5, 6), Seq(3, 4, 7, 8), Seq(9, 10, 13, 14), Seq(11, 12, 15, 16)))
+    group2x2(
+      Seq(Seq(1, 2, 3, 4), Seq(5, 6, 7, 8), Seq(9, 10, 11, 12), Seq(13, 14, 15, 16))
+    ) should be(Seq(Seq(1, 2, 5, 6), Seq(3, 4, 7, 8), Seq(9, 10, 13, 14), Seq(11, 12, 15, 16)))
 
     group2x2(Seq(Seq(1, 2, 1, 2), Seq(1, 2, 1, 2), Seq(1, 2, 1, 2), Seq(1, 2, 1, 2))) should be(
-      Seq(Seq(1, 2, 1, 2), Seq(1, 2, 1, 2), Seq(1, 2, 1, 2), Seq(1, 2, 1, 2)))
+      Seq(Seq(1, 2, 1, 2), Seq(1, 2, 1, 2), Seq(1, 2, 1, 2), Seq(1, 2, 1, 2))
+    )
   }
 
   // Extra credit

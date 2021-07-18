@@ -1,4 +1,3 @@
-
 /* Copyright (C) 2010-2017 Escalate Software, LLC All rights reserved. */
 
 package udemy.advanced1.module2
@@ -37,7 +36,6 @@ class Module02My extends KoanSuite with Matchers with SeveredStackTraces {
   case class Toothpick(name: String) extends Cargo
 
   case class Piano(name: String) extends Cargo
-
 
   // The first test is simply to provide a slick way to create an empty car of a given type
 
@@ -86,7 +84,6 @@ class Module02My extends KoanSuite with Matchers with SeveredStackTraces {
 
     // Then uncomment the section below to test your implementation
 
-
     val emptyCar = Car.empty[Cargo]()
     emptyCar.numberOfItems should be(0)
     emptyCar.item(0) should be(None)
@@ -101,7 +98,6 @@ class Module02My extends KoanSuite with Matchers with SeveredStackTraces {
     carWithToothpickAndPiano.item(0) should be(Some(Toothpick("toothpick-1")))
     carWithToothpickAndPiano.item(1) should be(Some(Piano("Yamaha")))
     carWithToothpickAndPiano.item(2) should be(None)
-
 
     // but without correct variance, this won't compile right now - check it and see
     assertDoesNotCompile(
@@ -158,7 +154,9 @@ class Module02My extends KoanSuite with Matchers with SeveredStackTraces {
 
     val anyCar: Car[TransportableItem] = carWithToothpickAndPiano
 
-    assertDoesNotCompile("val toothpick1: Cargo = anyCar.item(0).get") // because we widened the type param
+    assertDoesNotCompile(
+      "val toothpick1: Cargo = anyCar.item(0).get"
+    ) // because we widened the type param
     assertCompiles("val toothpick1: TransportableItem = anyCar.item(0).get")
     val toothpick: TransportableItem = anyCar.item(0).get
 
@@ -222,7 +220,9 @@ class Module02My extends KoanSuite with Matchers with SeveredStackTraces {
 
     val anyCar: Car[TransportableItem] = carWithToothpickAndPiano
 
-    assertDoesNotCompile("val toothpick1: Cargo = anyCar.item(0).get") // because we widened the type param
+    assertDoesNotCompile(
+      "val toothpick1: Cargo = anyCar.item(0).get"
+    ) // because we widened the type param
     assertCompiles("val toothpick1: TransportableItem = anyCar.item(0).get")
     val toothpick: TransportableItem = anyCar.item(0).get
 
@@ -251,13 +251,16 @@ class Module02My extends KoanSuite with Matchers with SeveredStackTraces {
     val livestockDock = new Dock[Livestock]
     val pigShip: Ship[Pig] = Ship(Seq(Pig("Porky"), Pig("Perkins")))
     val cowShip: Ship[Cow] = Ship(Seq(Cow("Bessie"), Cow("Daisy")))
-    val mixedLivestockShip: Ship[Livestock] = Ship(Seq(Pig("Porky"), Pig("Perkins"), Cow("Bessie"), Cow("Daisy")))
+    val mixedLivestockShip: Ship[Livestock] =
+      Ship(Seq(Pig("Porky"), Pig("Perkins"), Cow("Bessie"), Cow("Daisy")))
 
-    livestockDock.unload(mixedLivestockShip) should be(mixedLivestockShip.items) // that's the easy one, but what about the others?
+    livestockDock.unload(mixedLivestockShip) should be(
+      mixedLivestockShip.items
+    ) // that's the easy one, but what about the others?
 
     // Uncomment the tests below and then fix the variance and bounds of Dock definition to make this compile/pass
     livestockDock.unload(pigShip) should be(pigShip.items)
-     livestockDock.unload(cowShip) should be(cowShip.items)
+    livestockDock.unload(cowShip) should be(cowShip.items)
 
     // and that means a dock for any transportable item should handle anything:
     // Note how the returned sequences are the same type as the ship even though the dock type is more generic, neat huh?
@@ -266,8 +269,8 @@ class Module02My extends KoanSuite with Matchers with SeveredStackTraces {
     val livestockReceived: Seq[Livestock] = transportableItemDock.unload(mixedLivestockShip)
     val pigsReceived: Seq[Pig] = transportableItemDock.unload(pigShip)
 
-     toothpicksReceived should be(toothpickShip.items)
-     livestockReceived should be(mixedLivestockShip.items)
-     pigsReceived should be(pigShip.items)
+    toothpicksReceived should be(toothpickShip.items)
+    livestockReceived should be(mixedLivestockShip.items)
+    pigsReceived should be(pigShip.items)
   }
 }

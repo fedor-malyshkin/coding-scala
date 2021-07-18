@@ -1,4 +1,3 @@
-
 /* Copyright (C) 2010-2017 Escalate Software, LLC All rights reserved. */
 
 package udemy.advanced1.module3
@@ -72,7 +71,6 @@ class Module03Solutions extends AnyFunSpec with Matchers with SeveredStackTraces
         assert(seqReverse.reverse(List("does", "it", "work")) === List("work", "it", "does"))
       }
     }
-
 
     // now provide another implementation of ReverserTrait called IntReverser which reports false back to
     // the canReverse query, and throws an IllegalStateException if you try and reverse it
@@ -158,16 +156,14 @@ class Module03Solutions extends AnyFunSpec with Matchers with SeveredStackTraces
       if (bullets.length < 6) {
         bullets = bullet :: bullets
         true
-      }
-      else false
+      } else false
 
     def shoot() =
       if (!bullets.isEmpty) {
         val bullet = bullets.head
         bullets = bullets.tail
         Some(bullet.fire)
-      }
-      else None
+      } else None
 
     val gunWeight = 10
 
@@ -188,8 +184,7 @@ class Module03Solutions extends AnyFunSpec with Matchers with SeveredStackTraces
       if (bolt.isEmpty) {
         bolt = Some(theBolt)
         true
-      }
-      else false
+      } else false
 
     def shoot() =
       if (bolt.isEmpty) None
@@ -232,9 +227,8 @@ class Module03Solutions extends AnyFunSpec with Matchers with SeveredStackTraces
   }
 
   // Now uncomment the following helper method and tests to ensure compliance
-  def checkWeaponWeight(weapon: RangeWeapon, weight: Int) = {
+  def checkWeaponWeight(weapon: RangeWeapon, weight: Int) =
     assert(weapon.weight === weight)
-  }
 
   describe("A SixShooter") {
     val sixShooter = new SixShooter
@@ -368,7 +362,6 @@ class Module03Solutions extends AnyFunSpec with Matchers with SeveredStackTraces
       blaster.load(new Bolt)
     } */
   }
-
 
   // Next, let's exercise our F bounded polymorphism chops. Alter the following class
   // so that it can be used in .sorted calls on a collection by implementing the

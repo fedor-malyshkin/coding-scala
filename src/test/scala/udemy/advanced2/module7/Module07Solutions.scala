@@ -1,4 +1,3 @@
-
 /* Copyright (C) 2010-2018 Escalate Software, LLC. All rights reserved. */
 
 package udemy.advanced2.module7
@@ -9,7 +8,6 @@ import org.scalatest.matchers.must.Matchers
 import org.scalatest.matchers.should.Matchers.convertToAnyShouldWrapper
 
 import scala.annotation.tailrec
-
 
 class Module07Solutions extends AnyFunSuite with Matchers with SeveredStackTraces {
 
@@ -27,10 +25,10 @@ class Module07Solutions extends AnyFunSuite with Matchers with SeveredStackTrace
 
   object MockAddrNameResolver extends NameResolver {
     def addressForName(name: String): Option[String] = name match {
-      case "localhost" => Some("127.0.0.1")
-      case "www.cnn.com" => Some("157.166.248.10")
+      case "localhost"        => Some("127.0.0.1")
+      case "www.cnn.com"      => Some("157.166.248.10")
       case "www.slashdot.org" => Some("216.34.181.48")
-      case _ => None
+      case _                  => None
     }
   }
 
@@ -38,8 +36,8 @@ class Module07Solutions extends AnyFunSuite with Matchers with SeveredStackTrace
     @tailrec
     final def numerologyOfString(str: String): Int = {
       str.map(_.asDigit).sum match {
-        case x if (x <= 9) => x
-        case x => numerologyOfString(x.toString)
+        case x if x <= 9 => x
+        case x           => numerologyOfString(x.toString)
       }
     }
   }
@@ -79,7 +77,8 @@ class Module07Solutions extends AnyFunSuite with Matchers with SeveredStackTrace
     // SiteNewAgeChecker that will allow the Mock to be used instead of the InetAddress backed one.
     // This is a very typical use of modular decoupling.
 
-    val hostList = List("localhost", "www.cnn.com", "www.slashdot.org", "SomeTotallyMadeUpHostNameXXYYZZ.com")
+    val hostList =
+      List("localhost", "www.cnn.com", "www.slashdot.org", "SomeTotallyMadeUpHostNameXXYYZZ.com")
 
     val checker = new SiteNewAgeChecker {
       override val nameResolver = MockAddrNameResolver
@@ -102,9 +101,8 @@ class Module07Solutions extends AnyFunSuite with Matchers with SeveredStackTrace
   }
 
   object FakeDB extends DBAccess {
-    def lookupSite(i: Int) = {
+    def lookupSite(i: Int) =
       sites(i) // just like the above, but fast
-    }
   }
 
   test("Inject using Parfait") {

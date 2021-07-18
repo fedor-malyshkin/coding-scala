@@ -9,10 +9,12 @@ object Snapshots extends App {
 
   // commands
   case class ReceivedMessage(contents: String) // message FROM your contact
+
   case class SentMessage(contents: String) // message TO your contact
 
   // events
   case class ReceivedMessageRecord(id: Int, contents: String)
+
   case class SentMessageRecord(id: Int, contents: String)
 
   object Chat {
@@ -77,7 +79,7 @@ object Snapshots extends App {
       commandsWithoutCheckpoint += 1
       if (commandsWithoutCheckpoint >= MAX_MESSAGES) {
         log.info("Saving checkpoint...")
-        saveSnapshot(lastMessages)  // asynchronous operation
+        saveSnapshot(lastMessages) // asynchronous operation
         commandsWithoutCheckpoint = 0
       }
     }
@@ -86,10 +88,10 @@ object Snapshots extends App {
   val system = ActorSystem("SnapshotsDemo")
   val chat = system.actorOf(Chat.props("daniel123", "martin345"))
 
-//  for (i <- 1 to 100000) {
-//    chat ! ReceivedMessage(s"Akka Rocks $i")
-//    chat ! SentMessage(s"Akka Rules $i")
-//  }
+  //  for (i <- 1 to 100000) {
+  //    chat ! ReceivedMessage(s"Akka Rocks $i")
+  //    chat ! SentMessage(s"Akka Rules $i")
+  //  }
 
   // snapshots come in.
   chat ! "print"

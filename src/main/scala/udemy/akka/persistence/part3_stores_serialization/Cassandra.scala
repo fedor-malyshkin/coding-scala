@@ -5,8 +5,10 @@ import com.typesafe.config.ConfigFactory
 
 object Cassandra extends App {
 
-  val cassandraActorSystem = ActorSystem("cassandraSystem", ConfigFactory.load().getConfig("cassandraDemo"))
-  val persistentActor = cassandraActorSystem.actorOf(Props[SimplePersistentActor], "simplePersistentActor")
+  val cassandraActorSystem =
+    ActorSystem("cassandraSystem", ConfigFactory.load().getConfig("cassandraDemo"))
+  val persistentActor =
+    cassandraActorSystem.actorOf(Props[SimplePersistentActor], "simplePersistentActor")
 
   for (i <- 1 to 10) {
     persistentActor ! s"I love Akka [$i]"

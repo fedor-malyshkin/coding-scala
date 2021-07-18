@@ -19,11 +19,13 @@ class UserRegistrationSerializer extends Serializer {
   override def identifier: Int = 53278
 
   override def toBinary(o: AnyRef): Array[Byte] = o match {
-    case event@UserRegistered(id, email, name) =>
+    case event @ UserRegistered(id, email, name) =>
       println(s"Serializing $event")
       s"[$id$SEPARATOR$email$SEPARATOR$name]".getBytes()
     case _ =>
-      throw new IllegalArgumentException("only user registration events supported in this serializer")
+      throw new IllegalArgumentException(
+        "only user registration events supported in this serializer"
+      )
   }
 
   override def fromBinary(bytes: Array[Byte], manifest: Option[Class[_]]): AnyRef = {
@@ -42,24 +44,21 @@ class UserRegistrationSerializer extends Serializer {
   override def includeManifest: Boolean = false
 }
 
-
 class UserRegistrationActor extends PersistentActor with ActorLogging {
   override def persistenceId: String = "user-registration"
 
   var currentId = 0
 
-  override def receiveCommand: Receive = {
-    case RegisterUser(email, name) =>
-      persist(UserRegistered(currentId, email, name)) { e =>
-        currentId += 1
-        log.info(s"Persisted: $e")
-      }
+  override def receiveCommand: Receive = { case RegisterUser(email, name) =>
+    persist(UserRegistered(currentId, email, name)) { e =>
+      currentId += 1
+      log.info(s"Persisted: $e")
+    }
   }
 
-  override def receiveRecover: Receive = {
-    case event@UserRegistered(id, _, _) =>
-      log.info(s"Recovered: $event")
-      currentId = id
+  override def receiveRecover: Receive = { case event @ UserRegistered(id, _, _) =>
+    log.info(s"Recovered: $event")
+    currentId = id
   }
 }
 
@@ -72,7 +71,8 @@ object CustomSerialization extends App {
       the journal writes the bytes
    */
 
-  val system = ActorSystem("CustomSerialization", ConfigFactory.load().getConfig("customSerializerDemo"))
+  val system =
+    ActorSystem("CustomSerialization", ConfigFactory.load().getConfig("customSerializerDemo"))
   val userRegistrationActor = system.actorOf(Props[UserRegistrationActor], "userRegistration")
 
   //  for (i <- 1 to 10) {

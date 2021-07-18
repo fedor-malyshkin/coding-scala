@@ -1,6 +1,5 @@
 package playground.cats.datatypes
 
-
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.must.Matchers.be
 import org.scalatest.matchers.should.Matchers.convertToAnyShouldWrapper
@@ -17,7 +16,6 @@ class CatsDataTypesPlaygroundTest extends AnyFlatSpec {
     def divide(a: Double, b: Double): Either[String, Double] =
       Either.cond(b != 0, a / b, "Cannot divide by zero")
 
-
     def parseDoubleOption(s: String): Option[Either[String, Double]] =
       Option(parseDouble(s))
 
@@ -29,12 +27,11 @@ class CatsDataTypesPlaygroundTest extends AnyFlatSpec {
         parseDoubleOption(inputB) flatMap { eitherB =>
           (eitherA, eitherB) match {
             case (Right(a), Right(b)) => divideOption(a, b)
-            case (Left(err), _) => Option(Left(err))
-            case (_, Left(err)) => Option(Left(err))
+            case (Left(err), _)       => Option(Left(err))
+            case (_, Left(err))       => Option(Left(err))
           }
         }
       }
-
 
     divisionProgramOption("4", "2").get should be(Right(2.0))
     divisionProgramOption("a", "b").get should be(Left("a is not a number"))
@@ -71,7 +68,6 @@ class CatsDataTypesPlaygroundTest extends AnyFlatSpec {
     lazyEval.value should be(7)
     lazyEval.value should be(7)
 
-
     // Always: evaluated every time value is needed
     val alwaysEval = Eval.always {
       println("Running expensive calculation...")
@@ -100,7 +96,8 @@ class CatsDataTypesPlaygroundTest extends AnyFlatSpec {
     // it also works with more-than-one high-order-types
     type ErrorOr[A] = Either[String, A]
     val errorOrFirst: FunctionK[List, ErrorOr] = new FunctionK[List, ErrorOr] {
-      override def apply[A](fa: List[A]): ErrorOr[A] = fa.headOption.toRight("ERROR: the list was empty!")
+      override def apply[A](fa: List[A]): ErrorOr[A] =
+        fa.headOption.toRight("ERROR: the list was empty!")
     }
     errorOrFirst(List(1, 2, 3)) should be(Right(1))
     errorOrFirst(List()) should be(Left("ERROR: the list was empty!"))
@@ -126,7 +123,9 @@ class CatsDataTypesPlaygroundTest extends AnyFlatSpec {
 
     // Everything that has a Foldable instance!
     NonEmptyList.fromFoldable(Either.left[String, Int]("Error")) should be(None)
-    NonEmptyList.fromFoldable(Either.right[String, Int](42)) should be(Some(NonEmptyList(42, List())))
+    NonEmptyList.fromFoldable(Either.right[String, Int](42)) should be(
+      Some(NonEmptyList(42, List()))
+    )
     import cats.data.NonEmptyVector
     NonEmptyList.fromReducible(NonEmptyVector.of(1, 2, 3)) should be(NonEmptyList(1, List(2, 3)))
 
