@@ -6,7 +6,7 @@ Some exercise in Scala
 
 ## Requirements
 
-* NONE
+* Scala 2.13
 
 ## Platforms/Courses
 
@@ -19,9 +19,6 @@ Some exercise in Scala
     * [Akka Streams with Scala | Rock the JVM](https://www.udemy.com/course/akka-streams)
     * [Akka HTTP with Scala | Rock the JVM](https://www.udemy.com/course/akka-http)
     * [Akka Remoting and Clustering with Scala | Rock the JVM](https://www.udemy.com/course/akka-remoting-clustering/)
-    * [Spark 3.0 & Big Data Essentials with Scala | Rock the JVM](https://www.udemy.com/course/spark-essentials/)
-    * [Spark Streaming 3.0 with Scala | Rock the JVM](https://www.udemy.com/course/spark-streaming/)
-  
 
 ## References / Articles
 
@@ -33,3 +30,17 @@ Some exercise in Scala
 ```sh
 ./gradlew test
 ```
+
+## Code formatting
+
+I use `scalafmt` (IDE settings + gradle's plugin to start it)
+
+#### Good references worth to check
+* [Twitter’s Effective Scala](http://twitter.github.io/effectivescala/) <-- more Scal'ish
+* [Databricks Scala Guide](https://github.com/databricks/scala-style-guide) <-- less Scal'ish
+* [The Official Scala Style Guide](http://docs.scala-lang.org/style)
+
+I use such settings:
+![img](docs/format-settings.png)
+
+since it looks like IntelJ too often use its own formatter instead `scalafmt` to optimise performance that could easily cause different results.

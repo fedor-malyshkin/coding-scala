@@ -2,12 +2,8 @@
 
 * Monix
 * ZIO
-* cats-effects,
-* cats-free
 * Shapeless
 * https://leanpub.com/fpmortals
-* https://rockthejvm.com/p/spark-optimization
-* https://rockthejvm.com/p/spark-performance-tuning
 
 ## Articles
 * [Stream-Based Model Serving with Cloudflow and Seldon](https://www.lightbend.com/blog/stream-based-model-serving-with-cloudflow-and-seldon)
