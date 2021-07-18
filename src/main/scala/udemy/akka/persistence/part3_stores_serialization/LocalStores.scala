@@ -5,8 +5,10 @@ import com.typesafe.config.ConfigFactory
 
 object LocalStores extends App {
 
-  val localStoresActorSystem = ActorSystem("localStoresSystem", ConfigFactory.load().getConfig("localStores"))
-  val persistentActor = localStoresActorSystem.actorOf(Props[SimplePersistentActor], "simplePersistentActor")
+  val localStoresActorSystem =
+    ActorSystem("localStoresSystem", ConfigFactory.load().getConfig("localStores"))
+  val persistentActor =
+    localStoresActorSystem.actorOf(Props[SimplePersistentActor], "simplePersistentActor")
 
   for (i <- 1 to 10) {
     persistentActor ! s"I love Akka [$i]"

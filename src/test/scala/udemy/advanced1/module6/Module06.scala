@@ -1,8 +1,6 @@
-
 /* Copyright (C) 2010-2017 Escalate Software, LLC. All rights reserved. */
 
 package udemy.advanced1.module6
-
 
 import org.scalatest.SeveredStackTraces
 import org.scalatest.funsuite.AnyFunSuite
@@ -27,7 +25,6 @@ class Module06 extends AnyFunSuite with Matchers with SeveredStackTraces {
     xs.map(tReverse.reverse).reverse
   }
 
-
   // Write an implicit class ReverseAll to provide an extension method reverseIt to any
   // of Reversable T (using implicit bounds) so that when the reverse extension method is called
   // it reverses item
@@ -48,7 +45,7 @@ class Module06 extends AnyFunSuite with Matchers with SeveredStackTraces {
       "List(2.0, 4.0, 5.0).reverseIt"
     }
   }
-  */
+   */
 
   // Complex numbers with implicits next
 
@@ -60,7 +57,7 @@ class Module06 extends AnyFunSuite with Matchers with SeveredStackTraces {
     override def equals(other: Any) = {
       other match {
         case c: Complex => (r == c.r) && (i == c.i)
-        case _ => false
+        case _          => false
       }
     }
 
@@ -90,14 +87,13 @@ class Module06 extends AnyFunSuite with Matchers with SeveredStackTraces {
 
     5.5 + n1 should be (new Complex(10.5, 2.0))
     -3 + n2 should be (new Complex(3.0, -1.0))
-    */
+     */
   }
 
   // Returning to our list of cars from earlier, implement an implicit Ordering for car so that
   // the test compiles and the cars are sorted correctly
 
   case class Car(name: String, year: Int, engineSizeCCs: Int)
-
 
   test("Compile and sort cars correctly") {
     val car1 = Car("Grood", 1965, 1800)

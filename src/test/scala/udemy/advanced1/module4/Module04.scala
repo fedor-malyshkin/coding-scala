@@ -40,7 +40,7 @@ class Module04 extends AnyFunSpec with Matchers with SeveredStackTraces {
       assertDoesNotCompile("""sameLength(5, "Hello")""")
     }
   }
-  */
+   */
 
   sealed trait Fruit
 
@@ -69,7 +69,7 @@ class Module04 extends AnyFunSpec with Matchers with SeveredStackTraces {
       val banana = Banana("Fife", 328)
       assertDoesNotCompile("phForFruit(banana)")
     }
-    */
+     */
 
     // now create a mutable ListBuffer to which only Fruits with a ph can be added
     // and uncomment below to test it
@@ -88,7 +88,7 @@ class Module04 extends AnyFunSpec with Matchers with SeveredStackTraces {
         meanPh should be (3.5 +- 1e-6)
       }
     }
-    */
+     */
   }
 
   // define an enumeration for DNA Nucleotides with the values A, C, G and T, and the names

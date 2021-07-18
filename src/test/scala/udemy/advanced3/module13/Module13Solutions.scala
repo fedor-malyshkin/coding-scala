@@ -1,4 +1,3 @@
-
 /* Copyright (C) 2010-2019 Escalate Software, LLC. All rights reserved. */
 
 package udemy.advanced3.module13
@@ -183,15 +182,12 @@ class Module13Solutions extends AnyFunSpec with Matchers with SeveredStackTraces
     for {
       vOpt <- load[T](id)
       updatedOpt = vOpt.map(v => fn(v))
-      _ <- updatedOpt.
-        map(updated => save[T](id, updated)).
-        getOrElse(Free.pure(()))
+      _ <- updatedOpt.map(updated => save[T](id, updated)).getOrElse(Free.pure(()))
     } yield ()
-
 
   case class Person(name: String, age: Int)
 
-  import cats.{Id, ~>}
+  import cats.{~>, Id}
 
   import scala.collection.mutable
 
@@ -207,7 +203,7 @@ class Module13Solutions extends AnyFunSpec with Matchers with SeveredStackTraces
           fakeDB.get(id).flatMap(x => Try(x.asInstanceOf[A]).toOption)
         case Remove(id) =>
           fakeDB.remove(id).isDefined
-        case count@Count(_) =>
+        case count @ Count(_) =>
           fakeDB.values.collect(count.predicate).count(identity)
         case ShowState =>
           ()
@@ -233,7 +229,6 @@ class Module13Solutions extends AnyFunSpec with Matchers with SeveredStackTraces
           _ <- delete(124)
           _ <- showState()
         } yield (p, ct1, ct2)
-
 
       val (person, count1, count2) = program.foldMap(interpreter)
 

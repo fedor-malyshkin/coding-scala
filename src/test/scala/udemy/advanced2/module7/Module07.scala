@@ -1,4 +1,3 @@
-
 /* Copyright (C) 2010-2018 Escalate Software, LLC. All rights reserved. */
 
 package udemy.advanced2.module7
@@ -9,7 +8,6 @@ import org.scalatest.matchers.must.Matchers
 import org.scalatest.matchers.should.Matchers.convertToAnyShouldWrapper
 
 import scala.annotation.tailrec
-
 
 class Module07 extends AnyFunSuite with Matchers with SeveredStackTraces {
 
@@ -28,10 +26,10 @@ class Module07 extends AnyFunSuite with Matchers with SeveredStackTraces {
   // a mock version - notice the similarity of the API :-)
   object MockAddrNameResolver extends IInetAddrResolver {
     def addressForName(name: String): Option[String] = name match {
-      case "localhost" => Some("127.0.0.1")
-      case "www.cnn.com" => Some("157.166.248.10")
+      case "localhost"        => Some("127.0.0.1")
+      case "www.cnn.com"      => Some("157.166.248.10")
       case "www.slashdot.org" => Some("216.34.181.48")
-      case _ => None
+      case _                  => None
     }
   }
 
@@ -39,8 +37,8 @@ class Module07 extends AnyFunSuite with Matchers with SeveredStackTraces {
     @tailrec
     final def numerologyOfString(str: String): Int = {
       str.map(_.asDigit).sum match {
-        case x if (x <= 9) => x
-        case x => numerologyOfString(x.toString)
+        case x if x <= 9 => x
+        case x           => numerologyOfString(x.toString)
       }
     }
   }
@@ -57,7 +55,6 @@ class Module07 extends AnyFunSuite with Matchers with SeveredStackTraces {
       }
     }
   }
-
 
   test("Real InetAddrNameResolver") {
     val localhost = InetAddrNameResolver.addressForName("localhost")
@@ -79,7 +76,8 @@ class Module07 extends AnyFunSuite with Matchers with SeveredStackTraces {
     // SiteNewAgeChecker that will allow the Mock to be used instead of the InetAddress backed one.
     // This is a very typical use of modular decoupling.
 
-    val hostList = List("localhost", "www.cnn.com", "www.slashdot.org", "SomeTotallyMadeUpHostNameXXYYZZ.com")
+    val hostList =
+      List("localhost", "www.cnn.com", "www.slashdot.org", "SomeTotallyMadeUpHostNameXXYYZZ.com")
     implicit val resolver = MockAddrNameResolver
     val checker = new SiteNewAgeChecker
 
@@ -100,9 +98,8 @@ class Module07 extends AnyFunSuite with Matchers with SeveredStackTraces {
   }
 
   object FakeDB extends DBAccess {
-    def lookupSite(i: Int) = {
+    def lookupSite(i: Int) =
       sites(i) // just like the above, but fast
-    }
   }
 
   test("Inject using Parfait") {
@@ -123,7 +120,6 @@ class Module07 extends AnyFunSuite with Matchers with SeveredStackTraces {
     // together into one handy package
     trait SystemConfig extends DBConfig with NameResolverConfig
 
-
     // alter this SiteNumerologer to take the implicit config NameResolverConfig
     // and use that to get the name resolver instead of just using the slow one
     class SiteNumerologer(implicit resolverConfig: NameResolverConfig) {
@@ -138,7 +134,6 @@ class Module07 extends AnyFunSuite with Matchers with SeveredStackTraces {
       }
     }
 
-
     // Alter the SiteLookerUpper to take implicit DBConfig and use that to look
     // up the db instead of using the slow one
     class SiteLookerUpper(implicit dbConfig: DBConfig) {
@@ -146,7 +141,6 @@ class Module07 extends AnyFunSuite with Matchers with SeveredStackTraces {
 
       def numerForIndex(i: Int): String = db.lookupSite(i)
     }
-
 
     // now you will need to introduce the SystemConfig implicit here, since
     // the new SiteLookerUpper and new SiteNumerologer need to have those
@@ -160,8 +154,6 @@ class Module07 extends AnyFunSuite with Matchers with SeveredStackTraces {
         numerologer.numerForSite(lookerUpper.numerForIndex(i))
       }
     }
-
-
 
     // Finally you actually need an implicit concrete instance of the SystemConfig
     // with the FakeDB and MockAddrNameResolver in it - the compiler will tell

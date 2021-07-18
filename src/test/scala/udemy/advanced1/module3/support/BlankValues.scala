@@ -1,4 +1,3 @@
-
 /* Copyright (C) 2010-2017 Escalate Software, LLC All rights reserved. */
 
 package udemy.advanced1.module3.support
@@ -12,4 +11,3 @@ object BlankValues {
     override def toString() = "___"
   }
 }
-

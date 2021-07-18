@@ -1,4 +1,3 @@
-
 /* Copyright (C) 2010-2017 Escalate Software, LLC All rights reserved. */
 
 package udemy.advanced1.module3
@@ -51,7 +50,6 @@ class Module03 extends AnyFunSpec with Matchers with SeveredStackTraces {
       }
     }*/
 
-
     // now provide another implementation of ReverserTrait called IntReverser which reports false back to
     // the canReverse query, and throws an IllegalStateException if you try and reverse it
     // Uncomment the test below to make sure it works
@@ -102,7 +100,6 @@ class Module03 extends AnyFunSpec with Matchers with SeveredStackTraces {
   // print up Pew or Click to show whether the blaster fires. We will add a new method, empty, just for this type
   // so we can see when the blaster is empty. Loading the blaster with a charge, always returns true, even if it is
   // fully charged, but only allows a maximum of three shots still
-
 
   // Now uncomment the following helper method and tests to ensure compliance
   /* def checkWeaponWeight(weapon: RangeWeapon, weight: Int) = {
@@ -247,8 +244,7 @@ class Module03 extends AnyFunSpec with Matchers with SeveredStackTraces {
   // Ordered trait in its definition. Sort by year first and engine size next, both in
   // increasing order
 
-  case class Car(name: String, year: Int, engineSizeCCs: Int) {
-  }
+  case class Car(name: String, year: Int, engineSizeCCs: Int) {}
 
   describe("Sorting cars by year and engine size") {
     it("should compile and sort correctly") {
@@ -267,9 +263,7 @@ class Module03 extends AnyFunSpec with Matchers with SeveredStackTraces {
       car2 should be > car1
 
       car3 should be < car5
-      */
+       */
     }
   }
 }
-
-

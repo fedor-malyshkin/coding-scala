@@ -1,9 +1,16 @@
 # My TODO list for Scala
 
 * Monix
+  * monix-execution (https://monix.io/api/current/monix/execution/index.html)
+  * monix-catnap (https://monix.io/api/current/monix/catnap/index.html)
+  * monix-eval (https://monix.io/api/current/monix/eval/index.html)
+  * monix-reactive (https://monix.io/api/current/monix/reactive/index.html)
+  * monix-reactive (https://monix.io/api/current/monix/reactive/index.html)
+* https://leanpub.com/pfp-scala
 * ZIO
 * Shapeless
 * https://leanpub.com/fpmortals
+
 
 ## Articles
 * [Stream-Based Model Serving with Cloudflow and Seldon](https://www.lightbend.com/blog/stream-based-model-serving-with-cloudflow-and-seldon)

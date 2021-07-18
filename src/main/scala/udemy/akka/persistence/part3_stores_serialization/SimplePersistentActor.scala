@@ -19,10 +19,11 @@ class SimplePersistentActor extends PersistentActor with ActorLogging {
       log.info(s"Save snapshot was successful: $metadata")
     case SaveSnapshotFailure(_, cause) =>
       log.warning(s"Save snapshot failed: $cause")
-    case message => persist(message) { _ =>
-      log.info(s"Persisting $message")
-      nMessages += 1
-    }
+    case message =>
+      persist(message) { _ =>
+        log.info(s"Persisting $message")
+        nMessages += 1
+      }
   }
 
   override def receiveRecover: Receive = {

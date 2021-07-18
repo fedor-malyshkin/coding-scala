@@ -45,15 +45,14 @@ object PersistentActorsExercise extends App {
     }
 
     def handleInternalStateChange(citizenPID: String, candidate: String): Unit = {
-        citizens.add(citizenPID)
-        val votes = poll.getOrElse(candidate, 0)
-        poll.put(candidate, votes + 1)
+      citizens.add(citizenPID)
+      val votes = poll.getOrElse(candidate, 0)
+      poll.put(candidate, votes + 1)
     }
 
-    override def receiveRecover: Receive = {
-      case vote @ Vote(citizenPID, candidate) =>
-        log.info(s"Recovered: $vote")
-        handleInternalStateChange(citizenPID, candidate)
+    override def receiveRecover: Receive = { case vote @ Vote(citizenPID, candidate) =>
+      log.info(s"Recovered: $vote")
+      handleInternalStateChange(citizenPID, candidate)
     }
   }
 
@@ -68,9 +67,9 @@ object PersistentActorsExercise extends App {
     "Daniel" -> "Martin"
   )
 
-//  votesMap.keys.foreach { citizen =>
-//    votingStation ! Vote(citizen, votesMap(citizen))
-//  }
+  //  votesMap.keys.foreach { citizen =>
+  //    votingStation ! Vote(citizen, votesMap(citizen))
+  //  }
 
   votingStation ! Vote("Daniel", "Daniel")
   votingStation ! "print"

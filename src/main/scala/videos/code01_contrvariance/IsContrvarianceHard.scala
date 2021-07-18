@@ -25,7 +25,6 @@ object IsContrvarianceHard {
     // val myInvDogs : MyInvariantType[Animal] = new MyInvariantType[Dog]
   }
 
-
   def caseContrvariantCase1(): Unit = {
     class MyContrvariantType[-T]
     val myContrvDogs: MyContrvariantType[Dog] = new MyContrvariantType[Animal]
@@ -58,7 +57,6 @@ object IsContrvarianceHard {
   // CO-VARIANT - creates OR contains
   // CONTR-VARIANT  -- consumes OR processes
 
-
   def caseContrvariantCase2(): Unit = {
     trait Vet[-T] {
       def heal(animal: T): Boolean
@@ -72,7 +70,6 @@ object IsContrvarianceHard {
       override def heal(animal: Dog): Boolean = true
     }
 
-
     def hireToDogClinic(vet: Vet[Dog]): Unit = {
       val mySickDog = Dog("Sick Buddy")
       vet.heal(mySickDog)
@@ -80,7 +77,6 @@ object IsContrvarianceHard {
 
     hireToDogClinic(callDogsOnlyVet())
     hireToDogClinic(callAllAnimalVet())
-
 
     def callToDogHealer(healer: Dog => Dog): Unit = healer.apply(Dog("Sick dog"))
 

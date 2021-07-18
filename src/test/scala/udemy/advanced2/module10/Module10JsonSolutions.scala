@@ -3,7 +3,7 @@ package udemy.advanced2.module10
 import org.scalatest.SeveredStackTraces
 import org.scalatest.matchers.must.Matchers
 import org.scalatest.matchers.should.Matchers.convertToAnyShouldWrapper
-import play.api.libs.json.{Format, JsError, JsResult, JsSuccess, JsValue, Json}
+import play.api.libs.json._
 import udemy.advanced2.module10.support.KoanSuite
 
 class Module10JsonSolutions extends KoanSuite with Matchers with SeveredStackTraces {
@@ -38,36 +38,41 @@ class Module10JsonSolutions extends KoanSuite with Matchers with SeveredStackTra
   // now, the Item definition
   implicit object ItemJsonFormat extends Format[Item] {
     override def writes(o: Item): JsValue = o match {
-      case book: Book => bookJsonFormat.writes(book)
+      case book: Book       => bookJsonFormat.writes(book)
       case journal: Journal => journalJsonFormat.writes(journal)
-      case dvd: DVD => dvdJsonFormat.writes(dvd)
-      case cd: CD => cdJsonFormat.writes(cd)
+      case dvd: DVD         => dvdJsonFormat.writes(dvd)
+      case cd: CD           => cdJsonFormat.writes(cd)
     }
 
     override def reads(json: JsValue): JsResult[Item] = {
-      val opt = json.asOpt[Book].orElse(json.asOpt[Journal]).orElse(json.asOpt[DVD]).orElse(json.asOpt[CD])
+      val opt =
+        json.asOpt[Book].orElse(json.asOpt[Journal]).orElse(json.asOpt[DVD]).orElse(json.asOpt[CD])
       opt.map(item => JsSuccess(item)).getOrElse(JsError("Could not parse Item from JSON"))
     }
   }
 
   implicit val libraryJsonFormat: Format[Library] = Json.format[Library]
 
-  val library = Library(Seq(
-    Book("Catcher in the Rye", "J.D. Salinger", 1951, 224),
-    Journal("National Geographic", 170, 12, 2005),
-    DVD("This is Spinal Tap", "Rob Reiner", 1984, 82),
-    CD("Live Fast, Die Fast", "Wolfsbane", 1989, 35),
-    Book("Daemon", "Daniel Suarez", 2009, 448),
-    Journal("American Motorcyclist", 58, 12, 2010),
-    DVD("The Mummy", "Stephen Sommers", 1999, 125),
-    CD("Masterplan", "Oasis", 1998, 68),
-    Book("Lila", "Robert M. Pirsig", 1992, 480),
-    Journal("Linux Format", 200, 11, 2010),
-    DVD("Coraline", "Henry Selick", 2009, 96),
-    CD("Alright, Still", "Lily Allen", 2007, 46)
-  ))
+  val library = Library(
+    Seq(
+      Book("Catcher in the Rye", "J.D. Salinger", 1951, 224),
+      Journal("National Geographic", 170, 12, 2005),
+      DVD("This is Spinal Tap", "Rob Reiner", 1984, 82),
+      CD("Live Fast, Die Fast", "Wolfsbane", 1989, 35),
+      Book("Daemon", "Daniel Suarez", 2009, 448),
+      Journal("American Motorcyclist", 58, 12, 2010),
+      DVD("The Mummy", "Stephen Sommers", 1999, 125),
+      CD("Masterplan", "Oasis", 1998, 68),
+      Book("Lila", "Robert M. Pirsig", 1992, 480),
+      Journal("Linux Format", 200, 11, 2010),
+      DVD("Coraline", "Henry Selick", 2009, 96),
+      CD("Alright, Still", "Lily Allen", 2007, 46)
+    )
+  )
 
-  test("It should serialize a library full of items out to a file, and serialize it back in again") {
+  test(
+    "It should serialize a library full of items out to a file, and serialize it back in again"
+  ) {
     val jsonLibraryString = Json.prettyPrint(Json.toJson(library))
 
     // if you're feeling brave, uncomment this (but the strings will need to match exactly!)

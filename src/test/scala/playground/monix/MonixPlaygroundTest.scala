@@ -1,6 +1,5 @@
 package playground.monix
 
-
 import monix.eval.Task
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.must.Matchers.{an, be}
@@ -20,7 +19,6 @@ class MonixPlaygroundTest extends AnyFlatSpec {
 
     // Needed below
     import scala.concurrent.duration._
-
 
     it should "check Task, the Lazy Future" in {
       import monix.eval._
@@ -53,7 +51,8 @@ class MonixPlaygroundTest extends AnyFlatSpec {
       // Nothing happens here, as observable is lazily
       // evaluated only when the subscription happens!
       val tick = {
-        Observable.interval(1.second)
+        Observable
+          .interval(1.second)
           // common filtering and mapping
           .filter(_ % 2 == 0)
           .map(_ * 2)
@@ -105,7 +104,8 @@ class MonixPlaygroundTest extends AnyFlatSpec {
       val source = Task.raiseError[Int](new IllegalStateException)
       // Now we can flatMap over both success and failure:
       val recoveredPre = source.flatMap(i => Task.now(i * 2))
-      an[IllegalStateException] should be thrownBy (Await.result(recoveredPre.runToFuture, Duration.Inf))
+      an[IllegalStateException] should be thrownBy (Await
+        .result(recoveredPre.runToFuture, Duration.Inf))
 
       // val source = Task.raiseError[Int](new IllegalStateException)
 
@@ -115,7 +115,7 @@ class MonixPlaygroundTest extends AnyFlatSpec {
       // Now we can flatMap over both success and failure:
       val recovered = materialized.flatMap {
         case Success(value) => Task.now(value)
-        case Failure(_) => Task.now(0)
+        case Failure(_)     => Task.now(0)
       }
       Await.result(recovered.runToFuture, Duration.Inf) should be(0)
     }

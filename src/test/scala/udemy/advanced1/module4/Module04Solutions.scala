@@ -13,7 +13,7 @@ class Module04Solutions extends AnyFunSpec with Matchers with SeveredStackTraces
   // true if they are the same length, false otherwise. If you do it right, we should be able to compare a string
   // with a list and have true come out if they are the same length
 
-  def sameLength(l1: {def length: Int}, l2: {def length: Int}) = l1.length == l2.length
+  def sameLength(l1: { def length: Int }, l2: { def length: Int }) = l1.length == l2.length
 
   // uncomment the following to test your sameLength implementation
   describe("Function sameLength") {
@@ -53,7 +53,7 @@ class Module04Solutions extends AnyFunSpec with Matchers with SeveredStackTraces
   describe("Using refinement types") {
     // create a method that returns the ph for a fruit but only if the fruit has a ph method
 
-    def phForFruit(fruit: Fruit {def ph: Int}): Int = fruit.ph
+    def phForFruit(fruit: Fruit { def ph: Int }): Int = fruit.ph
 
     // uncomment the following to test it
     it("should give ph for a Lemon") {
@@ -75,7 +75,7 @@ class Module04Solutions extends AnyFunSpec with Matchers with SeveredStackTraces
     // and uncomment below to test it
 
     import scala.collection.mutable
-    val phFruits = mutable.ListBuffer.empty[Fruit {def ph: Int}]
+    val phFruits = mutable.ListBuffer.empty[Fruit { def ph: Int }]
 
     describe("Using a collection of ph Fruits") {
       it("should only allow Fruits with a ph to be added") {

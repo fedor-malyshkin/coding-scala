@@ -35,13 +35,12 @@ class Module11Solution extends AnyFunSpec with Matchers with SeveredStackTraces 
 
       // Make this method return a Future[Vector[Double]] instead so that the implementation
       // can take advantage of multiple cores
-      def draws(n: Int, iterations: Int): Future[Vector[Double]] = {
+      def draws(n: Int, iterations: Int): Future[Vector[Double]] =
         Future.traverse((1 to n).toVector)(_ => draw(iterations))
 
-        // or alternatively
-        // val drawFutures = for (_ <- 1 to n) yield draw(iterations)
-        // Future.sequence(drawFutures.toVector)
-      }
+      // or alternatively
+      // val drawFutures = for (_ <- 1 to n) yield draw(iterations)
+      // Future.sequence(drawFutures.toVector)
 
       // This method should call the above and combine the Futures in a way that does
       // not block or await them, returning a Future[Double] itself. We will await the
