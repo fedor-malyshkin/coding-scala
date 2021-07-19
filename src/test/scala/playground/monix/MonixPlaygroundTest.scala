@@ -70,33 +70,6 @@ class MonixPlaygroundTest extends AnyFlatSpec {
   }
 
   {
-    import monix.execution.atomic._
-    it should "check Atomics" in {
-      val refInt1: Atomic[Int] = Atomic(0)
-      val refInt2: AtomicInt = Atomic(0)
-
-      val refLong1: Atomic[Long] = Atomic(0L)
-      val refLong2: AtomicLong = Atomic(0L)
-
-      val refString1: Atomic[String] = Atomic("hello")
-      val refString2: AtomicAny[String] = Atomic("hello")
-    }
-
-    it should "check Atomics Numbers" in {
-      val ref = Atomic(BigInt(1))
-      // now we can increment a BigInt
-      ref.incrementAndGet() should be(BigInt("2"))
-      // or adding to it another value
-      ref.addAndGet(BigInt("329084291234234")) should be(BigInt("329084291234236"))
-    }
-
-    it should "check Atomics Number constrains" in {
-      val string = Atomic("hello")
-      assertDoesNotCompile("string.incrementAndGet()")
-    }
-  }
-
-  {
     import monix.execution.Scheduler.Implicits.global
     it should "check Error Handling" in {
       import scala.util.{Failure, Success, Try}
