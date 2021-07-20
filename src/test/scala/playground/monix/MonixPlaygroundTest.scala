@@ -20,31 +20,6 @@ class MonixPlaygroundTest extends AnyFlatSpec {
     // Needed below
     import scala.concurrent.duration._
 
-    it should "check Task, the Lazy Future" in {
-      import monix.eval._
-      import monix.execution.CancelableFuture
-      val task = Task {
-        1 + 1
-      }
-
-      // Tasks get evaluated only on runToFuture!
-      // Callback style:
-      val cancelable = task.runAsync {
-        case Right(value) =>
-          println(value)
-        case Left(ex) =>
-          System.out.println(s"ERROR: ${ex.getMessage}")
-      }
-      //=> 2
-
-      // Or you can convert it into a Future
-      val future: CancelableFuture[Int] =
-        task.runToFuture
-
-      // Printing the result asynchronously
-      future.foreach(println)
-    }
-
     ignore should "check Observable, the Lazy & Async Iterable" in {
       import monix.reactive._
 
@@ -67,32 +42,6 @@ class MonixPlaygroundTest extends AnyFlatSpec {
       val cancelable = tick.subscribe()
       Thread.sleep(6000)
     }
-  }
-
-  {
-    import monix.execution.Scheduler.Implicits.global
-    it should "check Error Handling" in {
-      import scala.util.{Failure, Success, Try}
-
-      val source = Task.raiseError[Int](new IllegalStateException)
-      // Now we can flatMap over both success and failure:
-      val recoveredPre = source.flatMap(i => Task.now(i * 2))
-      an[IllegalStateException] should be thrownBy (Await
-        .result(recoveredPre.runToFuture, Duration.Inf))
-
-      // val source = Task.raiseError[Int](new IllegalStateException)
-
-      val materialized: Task[Try[Int]] =
-        source.materialize
-
-      // Now we can flatMap over both success and failure:
-      val recovered = materialized.flatMap {
-        case Success(value) => Task.now(value)
-        case Failure(_)     => Task.now(0)
-      }
-      Await.result(recovered.runToFuture, Duration.Inf) should be(0)
-    }
-
   }
 
 }

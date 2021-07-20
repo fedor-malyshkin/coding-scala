@@ -1,4 +1,4 @@
-package playground.monix.execution
+package playground.monix.catnap
 
 import org.scalatest.ParallelTestExecution
 import org.scalatest.flatspec.AnyFlatSpec
