@@ -93,9 +93,13 @@ dependencies {
     implementation "org.scala-lang.modules:scala-xml_${SCALA_VER}:${SCALA_XML_VER}"
     implementation "com.typesafe.play:play-json_${SCALA_VER}:${PLAY_JSON_VER}"
 
-
     // Akka
+    implementation "com.typesafe.akka:akka-stream_${SCALA_VER}:${AKKA_VER}"
+    implementation "com.typesafe.akka:akka-cluster_${SCALA_VER}:${AKKA_VER}"
     implementation "com.typesafe.akka:akka-persistence_${SCALA_VER}:${AKKA_VER}"
+    // only to override transitive dependencies
+    implementation "com.typesafe.akka:akka-persistence-query_${SCALA_VER}:${AKKA_VER}"
+    implementation "com.typesafe.akka:akka-cluster-tools_${SCALA_VER}:${AKKA_VER}"
 
     // Level DB
     // local levelDB stores
