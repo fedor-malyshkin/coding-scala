@@ -36,7 +36,7 @@ ext {
     CATS_EFFECT_VER = '2.5.1'
 
     // ZIO
-    ZIO_VER = '1.0.3'
+    ZIO_VER = '1.0.9'
 
     // Monix
     MONIX_VER = '3.4.0'
