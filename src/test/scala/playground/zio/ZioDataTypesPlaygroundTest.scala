@@ -62,6 +62,48 @@ class ZioDataTypesPlaygroundTest extends AnyFlatSpec {
       val mainApp: ZIO[Any, Nothing, Unit] = effect.provideLayer(Console.live)
       val toMainMethod: URIO[ZEnv, ExitCode] = mainApp.exitCode
     }
+
+    it should "be composable" in {
+
+      type UserPrefLayer = Has[UserPref]
+      type UserDataLayer = Has[UserData]
+      type UserLayer = UserPrefLayer with UserDataLayer
+
+      trait UserPref {
+        def isAdmin: Task[Boolean]
+      }
+      trait UserData {
+        def allAccounts: Task[List[String]]
+
+        def ownAccount: Task[List[String]]
+      }
+
+      object UserServicesModule {
+        val userPrefLive: ULayer[UserPrefLayer] = ZLayer.succeed(new UserPref {
+          override def isAdmin: Task[Boolean] = ???
+        })
+        val userDataLive: ULayer[UserDataLayer] = ZLayer.succeed(new UserData {
+          override def allAccounts: Task[List[String]] = ???
+
+          override def ownAccount: Task[List[String]] = ???
+        })
+      }
+
+      // #4 Accessor Methods
+      object UserPref {
+        def isAdmin: ZIO[UserPrefLayer, Throwable, Boolean] = ZIO.serviceWith(_.isAdmin)
+      }
+
+      val app: ZIO[UserPrefLayer, Throwable, Boolean] = UserPref.isAdmin
+
+      val allLayers: ULayer[UserLayer] =
+        UserServicesModule.userPrefLive ++ UserServicesModule.userDataLive
+
+      zio.Runtime.default.unsafeRun(
+        app.provideLayer(allLayers)
+      )
+    }
+
     it should "define Module Patter #2" in {
       // #1 Service Definition
       trait Logging {

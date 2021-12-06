@@ -6,7 +6,7 @@ import org.scalatest.matchers.should.Matchers.convertToAnyShouldWrapper
 import play.api.libs.json._
 import udemy.advanced2.module10.support.KoanSuite
 
-class Module10JsonSolutions extends KoanSuite with Matchers with SeveredStackTraces {
+class Module10JsonHeapSolutions extends KoanSuite with Matchers with SeveredStackTraces {
 
   trait Item {
     def title: String

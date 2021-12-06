@@ -7,7 +7,7 @@ import org.scalatest.matchers.should.Matchers.convertToAnyShouldWrapper
 
 import scala.language.reflectiveCalls
 
-class Module04Solutions extends AnyFunSpec with Matchers with SeveredStackTraces {
+class Module04HeapSolutions extends AnyFunSpec with Matchers with SeveredStackTraces {
 
   // using structural typing, define a method sameLength which takes 2 of any kind of object that defines length, returning
   // true if they are the same length, false otherwise. If you do it right, we should be able to compare a string

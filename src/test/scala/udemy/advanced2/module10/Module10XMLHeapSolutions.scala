@@ -10,7 +10,7 @@ import udemy.advanced2.module10.support.KoanSuite
 import java.io.File
 import scala.xml.Node
 
-class Module10XMLSolutions extends KoanSuite with Matchers with SeveredStackTraces {
+class Module10XMLHeapSolutions extends KoanSuite with Matchers with SeveredStackTraces {
 
   trait LibraryItem {
     val title: String

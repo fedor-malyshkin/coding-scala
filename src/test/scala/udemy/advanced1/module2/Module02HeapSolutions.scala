@@ -16,7 +16,7 @@ import udemy.advanced1.module2.support.KoanSuite
 // own implementation, we recommend defining Car at the top level of the Module01 class
 // or even at the very top level or in another source file. Your choice.
 
-class Module02Solutions extends KoanSuite with Matchers with SeveredStackTraces {
+class Module02HeapSolutions extends KoanSuite with Matchers with SeveredStackTraces {
 
   // In this exercise you will create a rail car that can carry certain types of
   // items (represented by Scala types).

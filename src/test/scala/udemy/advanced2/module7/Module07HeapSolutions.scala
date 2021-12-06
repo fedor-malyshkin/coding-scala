@@ -9,7 +9,7 @@ import org.scalatest.matchers.should.Matchers.convertToAnyShouldWrapper
 
 import scala.annotation.tailrec
 
-class Module07Solutions extends AnyFunSuite with Matchers with SeveredStackTraces {
+class Module07HeapSolutions extends AnyFunSuite with Matchers with SeveredStackTraces {
 
   trait NameResolver {
     def addressForName(name: String): Option[String]

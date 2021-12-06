@@ -7,7 +7,7 @@ import org.scalatest.funspec.AnyFunSpec
 import org.scalatest.matchers.must.Matchers
 import org.scalatest.matchers.should.Matchers.convertToAnyShouldWrapper
 
-class Module03Solutions extends AnyFunSpec with Matchers with SeveredStackTraces {
+class Module03HeapSolutions extends AnyFunSpec with Matchers with SeveredStackTraces {
   // Provide a ReverserTrait that takes an abstract type, and has a single abstract method
   // called reverse.
   // Also provide one concrete method implementation defined only in ReverserTrait called canReverse that returns true

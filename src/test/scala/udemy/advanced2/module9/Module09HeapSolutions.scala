@@ -8,7 +8,7 @@ import udemy.advanced2.module9.JSONWrite.jsonify
 
 import java.io.{BufferedReader, File, FileReader}
 
-class Module09Solutions
+class Module09HeapSolutions
     extends AnyFunSpec
     with Matchers
     with SeveredStackTraces

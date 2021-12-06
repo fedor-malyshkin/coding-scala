@@ -10,7 +10,7 @@ import org.scalatest.matchers.should.Matchers.convertToAnyShouldWrapper
 import scala.annotation.tailrec
 import scala.util.control.TailCalls.{done, tailcall, TailRec}
 
-class Module12Solutions extends AnyFunSpec with Matchers with SeveredStackTraces {
+class Module12HeapSolutions extends AnyFunSpec with Matchers with SeveredStackTraces {
 
   // using the @tailrec annotation, ensure that the following fibonacci function in the ObscureMathUtil class
   // is actually tail recursive. Make any changes necessary to get it to compile as tail recursive and ensure the

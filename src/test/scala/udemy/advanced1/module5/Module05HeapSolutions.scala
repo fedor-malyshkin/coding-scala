@@ -11,7 +11,7 @@ import org.scalatest.matchers.should.Matchers.convertToAnyShouldWrapper
 import scala.reflect.ClassTag
 import scala.util.control.NonFatal
 
-class Module05Solutions extends AnyFunSuite with Matchers with SeveredStackTraces {
+class Module05HeapSolutions extends AnyFunSuite with Matchers with SeveredStackTraces {
 
   // Look at, and understand, the Reversable[T] trait below that defines a contract
   // reverse(x: T): T that can be extended by other type classes

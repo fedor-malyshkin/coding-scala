@@ -9,7 +9,7 @@ import org.scalatest.matchers.should.Matchers.convertToAnyShouldWrapper
 
 import scala.language.implicitConversions
 
-class Module06Solutions extends AnyFunSuite with Matchers with SeveredStackTraces {
+class Module06HeapSolutions extends AnyFunSuite with Matchers with SeveredStackTraces {
 
   trait Reversable[T] {
     def reverse(x: T): T

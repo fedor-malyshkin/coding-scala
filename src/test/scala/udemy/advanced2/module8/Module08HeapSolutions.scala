@@ -9,7 +9,7 @@ import org.scalatest.matchers.should.Matchers.convertToAnyShouldWrapper
 
 import scala.collection._
 
-class Module08Solutions extends AnyFunSuite with Matchers with SeveredStackTraces {
+class Module08HeapSolutions extends AnyFunSuite with Matchers with SeveredStackTraces {
 
   case class Passenger(name: String, cellPhoneNumber: Option[String])
 

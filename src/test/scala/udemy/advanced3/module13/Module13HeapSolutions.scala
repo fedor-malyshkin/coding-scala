@@ -11,7 +11,7 @@ import org.scalatest.matchers.should.Matchers.convertToAnyShouldWrapper
 import java.time.LocalDate
 import scala.reflect.ClassTag
 
-class Module13Solutions extends AnyFunSpec with Matchers with SeveredStackTraces {
+class Module13HeapSolutions extends AnyFunSpec with Matchers with SeveredStackTraces {
 
   // Make a Monad!
   // Create a Maybe data structure that behaves just like Option in Scala. It should have two

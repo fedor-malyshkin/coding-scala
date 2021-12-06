@@ -11,7 +11,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent._
 import scala.concurrent.duration._
 
-class Module01Solutions extends KoanSuite with Matchers {
+class Module01HeapSolutions extends KoanSuite with Matchers {
 
   class CalorieTracker {
     private[this] var _dailyMax: Int = _
