@@ -80,7 +80,7 @@ class ZioDataTypesPlaygroundTest extends AnyFlatSpec {
 
       object UserServicesModule {
         val userPrefLive: ULayer[UserPrefLayer] = ZLayer.succeed(new UserPref {
-          override def isAdmin: Task[Boolean] = ???
+          override def isAdmin: Task[Boolean] = Task.succeed(true)
         })
         val userDataLive: ULayer[UserDataLayer] = ZLayer.succeed(new UserData {
           override def allAccounts: Task[List[String]] = ???
