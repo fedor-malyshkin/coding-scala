@@ -1,4 +1,3 @@
-# Articles I have read
 
 |##     |Name   |Url    |
 |------:|:------|------:|
